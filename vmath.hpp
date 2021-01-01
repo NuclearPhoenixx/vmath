@@ -262,9 +262,9 @@ namespace vmath{
         Vector3 abs(){ return Vector3(vec.abs()); }
 
         Vector3 cross(Vector3 &crossvec){
-            double newx = y()*crossvec.z() - z()*crossvec.y();
-            double newy = z()*crossvec.x() - x()*crossvec.z();
-            double newz = x()*crossvec.y() - y()*crossvec.x();
+            const double newx = y()*crossvec.z() - z()*crossvec.y();
+            const double newy = z()*crossvec.x() - x()*crossvec.z();
+            const double newz = x()*crossvec.y() - y()*crossvec.x();
             return Vector3(newx,newy,newz);
         }
         double distance_squared_to(const Vector3 &tovec){ return vec.distance_squared_to(tovec.vec); }
