@@ -2,6 +2,7 @@
     TODO:
         - More (general) operations for vectors and matrices
         - Inheritance and (some) templates would be MUCH cleaner
+        - Matrix2 and Matrix3 with optional inverse functions
 */
 
 #ifndef VMATH_HPP // include guard
