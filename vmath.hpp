@@ -1,7 +1,7 @@
 /*
-    TODO:
-        - Inheritance and (some) templates would be MUCH cleaner
-        - Matrix2 and Matrix3 with optional inverse functions
+    Simple to use vector and matrix math library.
+    
+    (TODO) Inheritance and (some) templates would be MUCH cleaner
 */
 
 #ifndef VMATH_HPP // include guard
