@@ -1,13 +1,13 @@
 /*
     TODO:
-        - More (general) operations for vectors and matrices
         - Inheritance and (some) templates would be MUCH cleaner
+        - Matrix2 and Matrix3 with optional inverse functions
 */
 
 #ifndef VMATH_HPP // include guard
 #define VMATH_HPP
 
-#include <cmath> //used only TWICE, once for std::pow and once std::sqrt....
+#include <cmath> //used only for pow, abs, sqrt, sin, cos, acos, M_PI
 #include <vector>
 
 namespace vmath{
@@ -77,12 +77,12 @@ namespace vmath{
             double get(unsigned int i) const{ return vec[i-1]; }
             void set(unsigned int i, double val) { vec[i-1] = val; }
 
-            double length_squared(){
+            double length_squared() const{
                 double l = 0.;
                 for(double num:vec) l += num*num;
                 return l;
             }
-            double length(){ return std::sqrt(length_squared()); }
+            double length() const{ return std::sqrt(length_squared()); }
             
             bool is_normalized(){
                 if(length_squared() == 1.) return true;
@@ -99,6 +99,13 @@ namespace vmath{
                 for(size_t i=0; i<vec.size(); i++) dotprod += vec[i] * dotvec.get(i+1);
                 return dotprod;
             }
+            VectorN abs(){
+                std::vector<double> newvec;
+                for(auto val:vec) newvec.push_back(std::abs(val));
+                return VectorN(newvec);
+            }
+            double distance_squared_to(const VectorN &tovec){ return (*this-tovec).length_squared(); }
+            double distance_to(const VectorN &tovec){ return (*this-tovec).length(); }
     };
 
     /*
@@ -161,12 +168,29 @@ namespace vmath{
         double y(){ return vec.get(2); }
 
         double length_squared(){ return vec.length_squared(); }
-        double length(){ return vec.length(); }
+        double length() const{ return vec.length(); }
 
         void set(unsigned int i, double val) { vec.set(i,val); }
         bool is_normalized(){ return vec.is_normalized(); }
         Vector2 normalized(){ return Vector2(vec.normalized()); }
         double dot(const Vector2 &dotvec){ return vec.dot(dotvec.vec); }
+        Vector2 abs(){ return Vector2(vec.abs()); }
+
+        double angle_to(const Vector2 &tovec){
+            const double dotprod = dot(tovec);
+            const double lengthprod = length() * tovec.length();
+            return std::acos(dotprod/lengthprod);
+        }
+        double aspect(){ return x()/y(); }
+        Vector2 rotated(double phi){
+            const double xi = x() * std::cos(phi) - y() * std::sin(phi);
+            const double yi = y() * std::cos(phi) + x() * std::sin(phi);
+            return Vector2(xi,yi);
+        }
+        Vector2 tangent(){ return rotated(M_PI/2.); }
+        double distance_squared_to(const Vector2 &tovec){ return vec.distance_squared_to(tovec.vec); }
+        double distance_to(const Vector2 &tovec){ return vec.distance_to(tovec.vec); }
+        
     };
 
     /*
@@ -235,6 +259,7 @@ namespace vmath{
         bool is_normalized(){ return vec.is_normalized(); }
         Vector3 normalized(){ return Vector3(vec.normalized()); }
         double dot(const Vector3 &dotvec){ return vec.dot(dotvec.vec); }
+        Vector3 abs(){ return Vector3(vec.abs()); }
 
         Vector3 cross(Vector3 &crossvec){
             double newx = y()*crossvec.z() - z()*crossvec.y();
@@ -242,8 +267,21 @@ namespace vmath{
             double newz = x()*crossvec.y() - y()*crossvec.x();
             return Vector3(newx,newy,newz);
         }
+        double distance_squared_to(const Vector3 &tovec){ return vec.distance_squared_to(tovec.vec); }
+        double distance_to(const Vector3 &tovec){ return vec.distance_to(tovec.vec); }
+
     };
 
+    /*
+    STANDARD N-DIMENSIONAL MATRIX FOR VECTOR/MATRIX MATH AND BASE FOR MATRIX2 & MATRIX3
+    TODO:
+        - Transpose
+        - Matrix 2 + Matrix 3 -> Inverse
+        - Check normalized
+        - Check orthogonalized
+        - Check orthonormalized
+        - Orthonormalization -> Gram-Schmidt
+    */
     class MatrixN{
         private:
             std::vector<std::vector<double>> mat;

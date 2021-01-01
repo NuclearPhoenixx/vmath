@@ -11,6 +11,9 @@ using namespace vmath;
 //using namespace std;
 
 int main(){
+    Vector2 z(-2,3);
+    Vector2 y(1,0);
+    std::cout << y.tangent().x() << "," << y.tangent().y() << std::endl;
     /*
     Vector2 i(1,0);
     Vector2 a(1,1);
