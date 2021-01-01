@@ -11,8 +11,8 @@ using namespace vmath;
 //using namespace std;
 
 int main(){
-    
-    Vector2 x(1,0);
+    /*
+    Vector2 i(1,0);
     Vector2 a(1,1);
     Vector2 b(2,2);
     Vector2 d = a;
@@ -39,7 +39,7 @@ int main(){
 
     double dot = a.dot(b);
     std::cout << dot << std::endl;
-    std::cout << x.is_normalized() << std::endl;
+    std::cout << i.is_normalized() << std::endl;
     
     Vector3 aa(1,2,3);
     Vector3 bb(4,6,2);
@@ -56,7 +56,54 @@ int main(){
     std::cout << bN.dim() << std::endl;
     std::cout << cN.dim() << std::endl;
     std::cout << cN.get(5) << std::endl;
+    */    
+
+    std::vector<std::vector<double>> lola = {{1,2},{3,4}};
+    std::vector<std::vector<double>> lolb = {{5,6},{7,8}}; 
+    MatrixN c(lola);
+    MatrixN b(lolb);
+    //a *= b;
+    MatrixN a = b * c;
+    /*
+    Vector2 dim = c.dim();
+    for(size_t n=1; n<=dim.x(); n++){
+        for(size_t m=1; m<=dim.y(); m++){
+            std::cout << c.get(n,m) << ",";
+        }
+        std::cout << std::endl;
+    }
+    */
+    VectorN anotherTest({1,2,3});
+    MatrixN test({{1,0,0},{0,1,0},{0,0,1}});
+    //std::cout << test.det() << std::endl;
     
+    VectorN thingy = test * (test+test) * anotherTest;
+
+    for(size_t i=1; i<=thingy.dim(); i++) std::cout << thingy.get(i) << std::endl;
+    /*
+    Vector2 dim = test.dim();
+    for(size_t n=1; n<=dim.x(); n++){
+        for(size_t m=1; m<=dim.y(); m++){
+            std::cout << test.get(n,m) << ",";
+        }
+        std::cout << std::endl;
+    }*/
+    /*dim = c.dim();
+    for(size_t n=1; n<=dim.x(); n++){
+        for(size_t m=1; m<=dim.y(); m++){
+            std::cout << c.get(n,m) << ",";
+        }
+        std::cout << std::endl;
+    }
+    dim = b.dim();
+    for(size_t n=1; n<=dim.x(); n++){
+        for(size_t m=1; m<=dim.y(); m++){
+            std::cout << b.get(n,m) << ",";
+        }
+        std::cout << std::endl;
+    }
+    */
+
     return 0;
 }
 
