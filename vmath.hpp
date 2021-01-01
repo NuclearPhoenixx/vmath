@@ -7,7 +7,7 @@
 #ifndef VMATH_HPP // include guard
 #define VMATH_HPP
 
-#include <cmath>
+#include <cmath> //used only TWICE, once for std::pow and once std::sqrt....
 #include <vector>
 
 namespace vmath{
@@ -24,7 +24,6 @@ namespace vmath{
                 vec.assign(n,0.);
             }
             VectorN(const std::vector<double> &init){ //Constructor with values
-                //for(double value:init) vec.push_back(value);
                 vec = init;
             }
 
@@ -109,7 +108,6 @@ namespace vmath{
         VectorN vec; //EH, BAD VARIABLE, PLEASE DONT USE LOL
 
         Vector2(const double initx=0., const double inity=0.){ //Constructor
-            //std::vector<double> v = {initx,inity};
             vec = VectorN({initx,inity});
         }
         Vector2(const VectorN v){ //"Copy" Constructor
@@ -178,7 +176,6 @@ namespace vmath{
         VectorN vec; //EH, BAD VARIABLE, PLEASE DONT USE LOL
 
         Vector3(const double initx=0., const double inity=0., const double initz=0.){ //Constructor
-            //std::vector<double> v = {initx,inity,initz};
             vec = VectorN({initx,inity,initz});
         }
         Vector3(const VectorN v){ //"Copy" Constructor
@@ -265,11 +262,10 @@ namespace vmath{
                 mat.assign(n,std::vector<double>(m,0.));
             }
             MatrixN(const std::vector<std::vector<double>> &init){ //Constructor with values
-                //for(double value:init) vec.push_back(value);
                 mat = init;
             }
             
-            MatrixN &operator=(const MatrixN &newmat){ //Assignment Operator
+            MatrixN &operator=(const MatrixN &newmat){
                 if(this == &newmat) return *this;
                 mat.assign((newmat.dim()).x(),std::vector<double>((newmat.dim()).y(),0.));
                 for(size_t n=0; n<mat.size(); n++){
@@ -280,7 +276,7 @@ namespace vmath{
                 return *this; 
             }
             
-            MatrixN &operator+=(const MatrixN &addmat){ //Simple Vector Addition
+            MatrixN &operator+=(const MatrixN &addmat){
                 for(size_t n=0; n<mat.size(); n++){
                     for(size_t m=0; m<mat[n].size(); m++){
                         mat[n][m] += addmat.get(n+1, m+1);
@@ -288,7 +284,7 @@ namespace vmath{
                 }
                 return *this;
             }
-            MatrixN &operator-=(const MatrixN &addmat){ //Simple Vector Addition
+            MatrixN &operator-=(const MatrixN &addmat){
                 for(size_t n=0; n<mat.size(); n++){
                     for(size_t m=0; m<mat[n].size(); m++){
                         mat[n][m] -= addmat.get(n+1, m+1);
@@ -296,7 +292,7 @@ namespace vmath{
                 }
                 return *this;
             }
-            MatrixN &operator*=(const double num){ //Simple Vector Scalar Multiplication
+            MatrixN &operator*=(const double num){
                 for(size_t n=0; n<mat.size(); n++){
                     for(size_t m=0; m<mat[n].size(); m++){
                         mat[n][m] *= num;
@@ -304,7 +300,7 @@ namespace vmath{
                 }
                 return *this;
             }
-            MatrixN &operator*=(const MatrixN &multmat){ //Simple Vector Scalar Multiplication
+            MatrixN &operator*=(const MatrixN &multmat){
                 MatrixN tempmat = mat;
                 for(size_t i=0; i<mat.size(); i++){
                     for(size_t k=0; k<mat[i].size(); k++){
@@ -312,13 +308,13 @@ namespace vmath{
                         for(size_t j=0; j<mat[i].size(); j++){
                             val += mat[i][j] * multmat.get(j+1,k+1);
                         }
-                        tempmat.set(i+1,k+1,val);//[i][k] = val;
+                        tempmat.set(i+1,k+1,val);
                     }
                 }
                 *this = tempmat; //meh a bit ugly
                 return *this;
             }
-            MatrixN &operator/=(const double num){ //Simple Vector Scalar Division
+            MatrixN &operator/=(const double num){
                 for(size_t n=0; n<mat.size(); n++){
                     for(size_t m=0; m<mat[n].size(); m++){
                         mat[n][m] /= num;
@@ -327,27 +323,27 @@ namespace vmath{
                 return *this;
             }
             
-            MatrixN operator+(const MatrixN &addmat){ //Simple Vector Addition
+            MatrixN operator+(const MatrixN &addmat){
                 MatrixN newvec = *this;
                 newvec += addmat;
                 return newvec;
             }
-            MatrixN operator-(const MatrixN &addmat){ //Simple Vector Addition
+            MatrixN operator-(const MatrixN &addmat){
                 MatrixN newvec = *this;
                 newvec -= addmat;
                 return newvec;
             }
-            MatrixN operator*(const double num){ //Simple Vector Scalar Multiplication
+            MatrixN operator*(const double num){ //Matrix Scalar Operation
                 MatrixN newvec = *this;
                 newvec *= num;
                 return newvec;
             }
-            MatrixN operator*(const MatrixN &multmat){ //Simple Vector Scalar Multiplication
+            MatrixN operator*(const MatrixN &multmat){ //Matrix Matrix Operation
                 MatrixN newvec = *this;
                 newvec *= multmat;
                 return newvec;
             }
-            VectorN operator*(const VectorN &multvec){ //Simple Vector Scalar Multiplication
+            VectorN operator*(const VectorN &multvec){ //Matrix Vector Operation
                 VectorN newvec(multvec.dim());
                 for(size_t i=1; i<=multvec.dim(); i++){
                     double val = 0.;
@@ -358,7 +354,7 @@ namespace vmath{
                 }
                 return newvec;
             }
-            MatrixN operator/(const double num){ //Simple Vector Scalar Division
+            MatrixN operator/(const double num){
                 MatrixN newvec = *this;
                 newvec /= num;
                 return newvec;
