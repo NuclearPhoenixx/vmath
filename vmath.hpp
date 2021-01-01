@@ -274,13 +274,6 @@ namespace vmath{
 
     /*
     STANDARD N-DIMENSIONAL MATRIX FOR VECTOR/MATRIX MATH AND BASE FOR MATRIX2 & MATRIX3
-    TODO:
-        - Transpose
-        - Matrix 2 + Matrix 3 -> Inverse
-        - Check normalized
-        - Check orthogonalized
-        - Check orthonormalized
-        - Orthonormalization -> Gram-Schmidt
     */
     class MatrixN{
         private:
@@ -411,6 +404,15 @@ namespace vmath{
                 }
                 return val;
             }
+            /*
+            TODO:
+              - Transpose
+                - Matrix 2 + Matrix 3 -> Inverse
+                - Check normalized
+                - Check orthogonalized
+                - Check orthonormalized
+                - Orthonormalization -> Gram-Schmidt
+            */
     };
 
 }
