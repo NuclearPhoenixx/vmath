@@ -23,7 +23,7 @@ namespace vmath{
     STANDARD N-DIMENSIONAL VECTOR FOR VECTOR MATH AND BASE FOR VECTOR2 & VECTOR3
     */
     class VectorN{
-        private:
+        //private:
             //std::vector<double> vec;
 
         public:
