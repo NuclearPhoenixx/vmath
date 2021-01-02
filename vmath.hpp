@@ -2,6 +2,7 @@
     Simple to use vector and matrix math library.
     
     (TODO) Inheritance and (some) templates would be MUCH cleaner
+        - Orthonormalization -> Gram-Schmidt
 */
 
 #ifndef VMATH_HPP // include guard
@@ -17,9 +18,11 @@ namespace vmath{
     */
     class VectorN{
         private:
-            std::vector<double> vec;
+            //std::vector<double> vec;
 
         public:
+            std::vector<double> vec;
+
             VectorN(double n=0.){ //Constructor with dimension
                 vec.assign(n,0.);
             }
@@ -33,6 +36,14 @@ namespace vmath{
                 //vec.assign(newvec.dim(),0.);
                 //for(size_t i=0; i<vec.size(); i++) vec[i] = newvec.get(i+1);
                 return *this; 
+            }
+            bool operator==(const VectorN &vector){
+                if(vec != vector.vec) return false;
+                return true;
+            }
+            bool operator!=(const VectorN &vector){
+                if(vec == vector.vec) return false;
+                return true;
             }
 
             VectorN &operator+=(const VectorN &addvec){ //Simple Vector Addition
@@ -112,7 +123,7 @@ namespace vmath{
     STANDARD 2D VECTOR FOR VECTOR MATH
     */
     struct Vector2{
-        VectorN vec; //EH, BAD VARIABLE, PLEASE DONT USE LOL
+        VectorN vec;
 
         Vector2(const double initx=0., const double inity=0.){ //Constructor
             vec = VectorN({initx,inity});
@@ -126,6 +137,17 @@ namespace vmath{
             vec = newvec.vec;
             return *this; 
         }
+        bool operator==(const Vector2 &vector){
+            //if(vec != vector.vec) return false;
+            //return true;
+            return (vec == vector.vec);
+        }
+        bool operator!=(const Vector2 &vector){
+            //if(vec == vector.vec) return false;
+            //return true;
+            return (vec != vector.vec);
+        }
+
         Vector2 &operator+=(const Vector2 &addvec){ //Simple Vector Addition
             vec += addvec.vec;
             return *this;
@@ -197,7 +219,7 @@ namespace vmath{
     STANDARD 3D VECTOR FOR VECTOR MATH
     */
     struct Vector3{
-        VectorN vec; //EH, BAD VARIABLE, PLEASE DONT USE LOL
+        VectorN vec;
 
         Vector3(const double initx=0., const double inity=0., const double initz=0.){ //Constructor
             vec = VectorN({initx,inity,initz});
@@ -209,8 +231,19 @@ namespace vmath{
         Vector3 &operator=(const Vector3 &newvec){ //Assignment Operator
             if(this == &newvec) return *this;
             vec = newvec.vec;
-            return *this; 
+            return *this;
         }
+        bool operator==(const Vector3 &vector){
+            //if(vec != vector.vec) return false;
+            //return true;
+            return (vec == vector.vec);
+        }
+        bool operator!=(const Vector3 &vector){
+            //if(vec == vector.vec) return false;
+            //return true;
+            return (vec != vector.vec);
+        }
+
         Vector3 &operator+=(const Vector3 &addvec){ //Simple Vector Addition
             vec += addvec.vec;
             return *this;
@@ -305,6 +338,14 @@ namespace vmath{
                     }
                 }
                 return *this; 
+            }
+            bool operator==(const MatrixN &matrix){
+                if(mat != matrix.mat) return false;
+                return true;
+            }
+            bool operator!=(const MatrixN &matrix){
+                if(mat == matrix.mat) return false;
+                return true;
             }
             
             MatrixN &operator+=(const MatrixN &addmat){
@@ -404,15 +445,244 @@ namespace vmath{
                 }
                 return val;
             }
-            /*
-            TODO:
-              - Transpose
-                - Matrix 2 + Matrix 3 -> Inverse
-                - Check normalized
-                - Check orthogonalized
-                - Check orthonormalized
-                - Orthonormalization -> Gram-Schmidt
-            */
+            MatrixN transpose(){
+                MatrixN newmat = *this;
+                for(size_t n=1; n<=dim().x(); n++){
+                    for(size_t m=1; m<=dim().y(); m++) newmat.set(n,m,get(m,n));
+                }
+                return newmat;
+            }
+            bool is_normalized(){
+                for(size_t m=1; m<=dim().y(); m++){
+                    std::vector<double> tempvec;
+                    for(size_t n=1; n<=dim().x(); n++) tempvec.push_back(get(n,m));
+                    VectorN vector(tempvec);
+                    if(!vector.is_normalized()) return false;
+                }
+                return true;
+            }            
+            bool is_orthogonalized(){
+                std::vector<VectorN> vecholder;
+                
+                for(size_t m=1; m<=dim().y(); m++){
+                    std::vector<double> tempvec;
+                    for(size_t n=1; n<=dim().x(); n++) tempvec.push_back(get(n,m));
+                    vecholder.push_back(tempvec);
+                }
+                for(auto vector:vecholder){
+                    for(auto anothervec:vecholder){
+                        if(vector == anothervec) continue;
+                        if(vector.dot(anothervec) != 0) return false;
+                    }
+                }
+                return true;
+            }
+            bool is_orthonormalized(){
+                //if(is_orthogonalized() && is_normalized()) return true;
+                //return false;
+                return (is_orthogonalized() && is_normalized());
+            }
+    };
+
+    /*
+    STANDARD 2x2 MATRIX FOR VECTOR MATH
+    */
+    struct Matrix2{
+        MatrixN mat;
+
+        Matrix2(double a11=0., double a12=0., double a21=0., double a22=0.){ //Constructor with values
+            mat = MatrixN({{a11,a12},{a21,a22}});
+        }
+        Matrix2(const std::vector<std::vector<double>> &init){ //Constructor with std::vector
+            mat = MatrixN(init);
+        }
+        Matrix2(const MatrixN &init){ //Constructor with std::vector
+            mat = init;
+        }
+            
+        Matrix2 &operator=(const Matrix2 &newmat){
+            if(this == &newmat) return *this;
+            mat = newmat.mat;
+            return *this; 
+        }
+        bool operator==(const Matrix2 &matrix){
+            return (mat == matrix.mat);
+        }
+        bool operator!=(const Matrix2 &matrix){
+            return (mat != matrix.mat);
+        }
+            
+        Matrix2 &operator+=(const Matrix2 &addmat){
+            mat += addmat.mat;
+            return *this;
+        }
+        Matrix2 &operator-=(const Matrix2 &addmat){
+            mat -= addmat.mat;
+            return *this;
+        }
+        Matrix2 &operator*=(const double num){
+            mat *= num;
+            return *this;
+        }
+        Matrix2 &operator*=(const Matrix2 &multmat){
+            mat *= multmat.mat;
+            return *this;
+        }
+        Matrix2 &operator/=(const double num){
+            mat /= num;
+            return *this;
+        }
+        
+        Matrix2 operator+(const Matrix2 &addmat){
+            Matrix2 newmat = *this;
+            newmat += addmat;
+            return newmat;
+        }
+        Matrix2 operator-(const Matrix2 &addmat){
+            Matrix2 newmat = *this;
+            newmat -= addmat;
+            return newmat;
+        }
+        Matrix2 operator*(const double num){ //Matrix Scalar Operation
+            Matrix2 newmat = *this;
+            newmat *= num;
+            return newmat;
+        }
+        Matrix2 operator*(const Matrix2 &multmat){ //Matrix Matrix Operation
+            Matrix2 newvec = *this;
+            newvec *= multmat;
+            return newvec;
+        }
+        Vector2 operator*(const Vector2 &multvec){ //Matrix Vector Operation
+            return Vector2(mat * multvec.vec);;
+        }
+        Matrix2 operator/(const double num){
+            Matrix2 newmat = *this;
+            newmat /= num;
+            return newmat;
+        }
+
+        Vector2 dim() const{ return mat.dim(); }
+        double get(unsigned int n, unsigned int m) const{ return mat.get(n,m); }
+        void set(unsigned int n, unsigned int m, double val) { mat.set(n,m,val); }
+        double det(){ return mat.det(); }
+        Matrix2 transpose(){ return Matrix2(mat.transpose()); }
+        bool is_normalized(){ return mat.is_normalized(); }            
+        bool is_orthogonalized(){ return mat.is_orthogonalized(); }
+        bool is_orthonormalized(){ return mat.is_orthonormalized(); }
+        Matrix2 inverse(){    
+            Matrix2 newmat;
+            newmat.set(1,1,get(2,2));
+            newmat.set(1,2,-get(1,2));
+            newmat.set(2,1,-get(2,1));
+            newmat.set(2,2,get(1,1));
+            newmat /= det();
+            return newmat;            
+        }
+
+    };
+
+    /*
+    STANDARD 3x3 MATRIX FOR VECTOR MATH
+    */
+    struct Matrix3{
+        MatrixN mat;
+
+        Matrix3(double a11=0.,double a12=0.,double a13=0.,double a21=0.,double a22=0.,double a23=0.,double a31=0.,double a32=0.,double a33=0.){
+            mat = MatrixN({{a11,a12,a13},{a21,a22,a23},{a31,a32,a33}});
+        }
+        Matrix3(const std::vector<std::vector<double>> &init){ //Constructor with std::vector
+            mat = MatrixN(init);
+        }
+        Matrix3(const MatrixN &init){ //Constructor with std::vector
+            mat = init;
+        }
+            
+        Matrix3 &operator=(const Matrix3 &newmat){
+            if(this == &newmat) return *this;
+            mat = newmat.mat;
+            return *this;
+        }
+        bool operator==(const Matrix3 &matrix){
+            return (mat == matrix.mat);
+        }
+        bool operator!=(const Matrix3 &matrix){
+            return (mat != matrix.mat);
+        }
+        
+        Matrix3 &operator+=(const Matrix3 &addmat){
+            mat += addmat.mat;
+            return *this;
+        }
+        Matrix3 &operator-=(const Matrix3 &addmat){
+            mat -= addmat.mat;
+            return *this;
+        }
+        Matrix3 &operator*=(const double num){
+            mat *= num;
+            return *this;
+        }
+        Matrix3 &operator*=(const Matrix3 &multmat){
+            mat *= multmat.mat;
+            return *this;
+        }
+        Matrix3 &operator/=(const double num){
+            mat /= num;
+            return *this;
+        }
+        
+        Matrix3 operator+(const Matrix3 &addmat){
+            Matrix3 newmat = *this;
+            newmat += addmat;
+            return newmat;
+        }
+        Matrix3 operator-(const Matrix3 &addmat){
+            Matrix3 newmat = *this;
+            newmat -= addmat;
+            return newmat;
+        }
+        Matrix3 operator*(const double num){ //Matrix Scalar Operation
+            Matrix3 newmat = *this;
+            newmat *= num;
+            return newmat;
+        }
+        Matrix3 operator*(const Matrix3 &multmat){ //Matrix Matrix Operation
+            Matrix3 newvec = *this;
+            newvec *= multmat;
+            return newvec;
+        }
+        Vector3 operator*(const Vector3 &multvec){ //Matrix Vector Operation
+            return Vector3(mat * multvec.vec);;
+        }
+        Matrix3 operator/(const double num){
+            Matrix3 newmat = *this;
+            newmat /= num;
+            return newmat;
+        }
+
+        Vector2 dim() const{ return mat.dim(); }
+        double get(unsigned int n, unsigned int m) const{ return mat.get(n,m); }
+        void set(unsigned int n, unsigned int m, double val) { mat.set(n,m,val); }
+        double det(){ return mat.det(); }
+        Matrix2 transpose(){ return Matrix2(mat.transpose()); }
+        bool is_normalized(){ return mat.is_normalized(); }            
+        bool is_orthogonalized(){ return mat.is_orthogonalized(); }
+        bool is_orthonormalized(){ return mat.is_orthonormalized(); }
+        Matrix3 inverse(){    
+            Matrix3 newmat;
+            newmat.set(1,1,get(2,2)*get(3,3) - get(2,3)*get(3,2));
+            newmat.set(1,2,get(1,3)*get(3,2) - get(1,2)*get(3,3));
+            newmat.set(1,3,get(1,2)*get(2,3) - get(1,3)*get(2,2));
+            newmat.set(2,1,get(2,3)*get(3,1) - get(2,1)*get(3,3));
+            newmat.set(2,2,get(1,1)*get(3,3) - get(1,3)*get(3,1));
+            newmat.set(2,3,get(1,3)*get(2,1) - get(1,1)*get(2,3));
+            newmat.set(3,1,get(2,1)*get(3,2) - get(2,2)*get(3,1));
+            newmat.set(3,2,get(1,2)*get(3,1) - get(1,1)*get(3,2));
+            newmat.set(3,3,get(1,1)*get(2,2) - get(1,2)*get(2,1));
+            newmat /= det();
+            return newmat;            
+        }
+
     };
 
 }
