@@ -128,7 +128,7 @@ namespace vmath{
         Vector2(const double initx=0., const double inity=0.){ //Constructor
             vec = VectorN({initx,inity});
         }
-        Vector2(const VectorN v){ //"Copy" Constructor
+        Vector2(const VectorN &v){ //"Copy" Constructor
             vec = v;
         }
 
@@ -224,7 +224,7 @@ namespace vmath{
         Vector3(const double initx=0., const double inity=0., const double initz=0.){ //Constructor
             vec = VectorN({initx,inity,initz});
         }
-        Vector3(const VectorN v){ //"Copy" Constructor
+        Vector3(const VectorN &v){ //"Copy" Constructor
             vec = v;
         }
 
