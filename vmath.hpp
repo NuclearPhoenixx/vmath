@@ -1,11 +1,17 @@
 /*
+    vmath.hpp
+
     Simple to use vector and matrix math library.
+
+    2021, Phoenix1747, MIT License.
     
+    Github: https://github.com/Phoenix1747/vmath
+
     (TODO) Inheritance and (some) templates would be MUCH cleaner
         - Orthonormalization -> Gram-Schmidt
 */
 
-#ifndef VMATH_HPP // include guard
+#ifndef VMATH_HPP
 #define VMATH_HPP
 
 #include <cmath> //used only for pow, abs, sqrt, sin, cos, acos, M_PI
@@ -23,14 +29,14 @@ namespace vmath{
         public:
             std::vector<double> vec;
 
-            VectorN(double n=0.){ //Constructor with dimension
+            VectorN(double n=0.){ //Constructor for vector dimension n
                 vec.assign(n,0.);
             }
-            VectorN(const std::vector<double> &init){ //Constructor with values
+            VectorN(const std::vector<double> &init){
                 vec = init;
             }
 
-            VectorN &operator=(const VectorN &newvec){ //Assignment Operator
+            VectorN &operator=(const VectorN &newvec){
                 if(this == &newvec) return *this;
                 vec = newvec.vec;
                 //vec.assign(newvec.dim(),0.);
@@ -46,45 +52,45 @@ namespace vmath{
                 return true;
             }
 
-            VectorN &operator+=(const VectorN &addvec){ //Simple Vector Addition
+            VectorN &operator+=(const VectorN &addvec){ //Vector Addition
                 for(size_t i=0; i<vec.size(); i++) vec[i] += addvec.get(i+1);
                 return *this;
             }
-            VectorN &operator-=(const VectorN &addvec){ //Simple Vector Addition
+            VectorN &operator-=(const VectorN &addvec){ //Vector Subtraction
                 for(size_t i=0; i<vec.size(); i++) vec[i] -= addvec.get(i+1);
                 return *this;
             }
-            VectorN &operator*=(const double num){ //Simple Vector Scalar Multiplication
+            VectorN &operator*=(const double num){ //Vector Scalar Multiplication
                 for(size_t i=0; i<vec.size(); i++) vec[i] *= num;
                 return *this;
             }
-            VectorN &operator/=(const double num){ //Simple Vector Scalar Division
+            VectorN &operator/=(const double num){ //Vector Scalar Division
                 for(size_t i=0; i<vec.size(); i++) vec[i] /= num;
                 return *this;
             }
 
-            VectorN operator+(const VectorN &addvec){ //Simple Vector Addition
+            VectorN operator+(const VectorN &addvec){
                 VectorN newvec = *this;
                 newvec += addvec;
                 return newvec;
             }
-            VectorN operator-(const VectorN &addvec){ //Simple Vector Addition
+            VectorN operator-(const VectorN &addvec){
                 VectorN newvec = *this;
                 newvec -= addvec;
                 return newvec;
             }
-            VectorN operator*(const double num){ //Simple Vector Scalar Multiplication
+            VectorN operator*(const double num){
                 VectorN newvec = *this;
                 newvec *= num;
                 return newvec;
             }
-            VectorN operator/(const double num){ //Simple Vector Scalar Division
+            VectorN operator/(const double num){
                 VectorN newvec = *this;
                 newvec /= num;
                 return newvec;
             }
 
-            unsigned int dim() const{ return vec.size(); }
+            unsigned int dim() const{ return vec.size(); } //return vector dimension
             double get(unsigned int i) const{ return vec[i-1]; }
             void set(unsigned int i, double val) { vec[i-1] = val; }
 
@@ -95,7 +101,7 @@ namespace vmath{
             }
             double length() const{ return std::sqrt(length_squared()); }
             
-            bool is_normalized(){
+            bool is_normalized(){ //if length() == 1
                 if(length_squared() == 1.) return true;
                 return false;
             }
@@ -125,14 +131,14 @@ namespace vmath{
     struct Vector2{
         VectorN vec;
 
-        Vector2(const double initx=0., const double inity=0.){ //Constructor
+        Vector2(const double initx=0., const double inity=0.){ //Create vector with two coords
             vec = VectorN({initx,inity});
         }
-        Vector2(const VectorN &v){ //"Copy" Constructor
+        Vector2(const VectorN &v){ //Create vector out of existing VectorN
             vec = v;
         }
 
-        Vector2 &operator=(const Vector2 &newvec){ //Assignment Operator
+        Vector2 &operator=(const Vector2 &newvec){
             if(this == &newvec) return *this;
             vec = newvec.vec;
             return *this; 
@@ -148,46 +154,46 @@ namespace vmath{
             return (vec != vector.vec);
         }
 
-        Vector2 &operator+=(const Vector2 &addvec){ //Simple Vector Addition
+        Vector2 &operator+=(const Vector2 &addvec){
             vec += addvec.vec;
             return *this;
         }
-        Vector2 &operator-=(const Vector2 &addvec){ //Simple Vector Addition
+        Vector2 &operator-=(const Vector2 &addvec){
             vec -= addvec.vec;
             return *this;
         }
-        Vector2 &operator*=(const double num){ //Simple Vector Scalar Multiplication
+        Vector2 &operator*=(const double num){
             vec *= num;
             return *this;
         }
-        Vector2 &operator/=(const double num){ //Simple Vector Scalar Division
+        Vector2 &operator/=(const double num){
             vec /= num;
             return *this;
         }
 
-        Vector2 operator+(const Vector2 &addvec){ //Simple Vector Addition
+        Vector2 operator+(const Vector2 &addvec){
             Vector2 newvec = *this;
             newvec += addvec;
             return newvec;
         }
-        Vector2 operator-(const Vector2 &addvec){ //Simple Vector Addition
+        Vector2 operator-(const Vector2 &addvec){
             Vector2 newvec = *this;
             newvec -= addvec;
             return newvec;
         }
-        Vector2 operator*(const double num){ //Simple Vector Scalar Multiplication
+        Vector2 operator*(const double num){
             Vector2 newvec = *this;
             newvec *= num;
             return newvec;
         }
-        Vector2 operator/(const double num){ //Simple Vector Scalar Division
+        Vector2 operator/(const double num){
             Vector2 newvec = *this;
             newvec /= num;
             return newvec;
         }
 
-        double x(){ return vec.get(1); }
-        double y(){ return vec.get(2); }
+        double x(){ return vec.get(1); } //return first coord
+        double y(){ return vec.get(2); } //return second coord
 
         double length_squared(){ return vec.length_squared(); }
         double length() const{ return vec.length(); }
@@ -221,14 +227,14 @@ namespace vmath{
     struct Vector3{
         VectorN vec;
 
-        Vector3(const double initx=0., const double inity=0., const double initz=0.){ //Constructor
+        Vector3(const double initx=0., const double inity=0., const double initz=0.){ //Create vector with the 3 coords
             vec = VectorN({initx,inity,initz});
         }
-        Vector3(const VectorN &v){ //"Copy" Constructor
+        Vector3(const VectorN &v){ //Create vector out of existing vector
             vec = v;
         }
 
-        Vector3 &operator=(const Vector3 &newvec){ //Assignment Operator
+        Vector3 &operator=(const Vector3 &newvec){
             if(this == &newvec) return *this;
             vec = newvec.vec;
             return *this;
@@ -244,39 +250,39 @@ namespace vmath{
             return (vec != vector.vec);
         }
 
-        Vector3 &operator+=(const Vector3 &addvec){ //Simple Vector Addition
+        Vector3 &operator+=(const Vector3 &addvec){
             vec += addvec.vec;
             return *this;
         }
-        Vector3 &operator-=(const Vector3 &addvec){ //Simple Vector Addition
+        Vector3 &operator-=(const Vector3 &addvec){
             vec -= addvec.vec;
             return *this;
         }
-        Vector3 &operator*=(const double num){ //Simple Vector Scalar Multiplication
+        Vector3 &operator*=(const double num){
             vec *= num;
             return *this;
         }
-        Vector3 &operator/=(const double num){ //Simple Vector Scalar Division
+        Vector3 &operator/=(const double num){
             vec /= num;
             return *this;
         }
 
-        Vector3 operator+(const Vector3 &addvec){ //Simple Vector Addition
+        Vector3 operator+(const Vector3 &addvec){
             Vector3 newvec = *this;
             newvec += addvec;
             return newvec;
         }
-        Vector3 operator-(const Vector3 &addvec){ //Simple Vector Addition
+        Vector3 operator-(const Vector3 &addvec){
             Vector3 newvec = *this;
             newvec -= addvec;
             return newvec;
         }
-        Vector3 operator*(const double num){ //Simple Vector Scalar Multiplication
+        Vector3 operator*(const double num){
             Vector3 newvec = *this;
             newvec *= num;
             return newvec;
         }
-        Vector3 operator/(const double num){ //Simple Vector Scalar Division
+        Vector3 operator/(const double num){
             Vector3 newvec = *this;
             newvec /= num;
             return newvec;
@@ -322,10 +328,10 @@ namespace vmath{
             }
 
         public:
-            MatrixN(double n=0.,double m=0.){ //Constructor with dimension
+            MatrixN(double n=0.,double m=0.){ //Create (n x m) matrix with values 0
                 mat.assign(n,std::vector<double>(m,0.));
             }
-            MatrixN(const std::vector<std::vector<double>> &init){ //Constructor with values
+            MatrixN(const std::vector<std::vector<double>> &init){ //Create matrix out of existing 2-dimensional vector
                 mat = init;
             }
             
@@ -452,7 +458,7 @@ namespace vmath{
                 }
                 return newmat;
             }
-            bool is_normalized(){
+            bool is_normalized(){ //if length of every column == 1
                 for(size_t m=1; m<=dim().y(); m++){
                     std::vector<double> tempvec;
                     for(size_t n=1; n<=dim().x(); n++) tempvec.push_back(get(n,m));
@@ -460,8 +466,8 @@ namespace vmath{
                     if(!vector.is_normalized()) return false;
                 }
                 return true;
-            }            
-            bool is_orthogonalized(){
+            }
+            bool is_orthogonalized(){ //if every column is perpendicular to every other one
                 std::vector<VectorN> vecholder;
                 
                 for(size_t m=1; m<=dim().y(); m++){
@@ -490,13 +496,13 @@ namespace vmath{
     struct Matrix2{
         MatrixN mat;
 
-        Matrix2(double a11=0., double a12=0., double a21=0., double a22=0.){ //Constructor with values
+        Matrix2(double a11=0., double a12=0., double a21=0., double a22=0.){ //Construct with matrix values
             mat = MatrixN({{a11,a12},{a21,a22}});
         }
-        Matrix2(const std::vector<std::vector<double>> &init){ //Constructor with std::vector
+        Matrix2(const std::vector<std::vector<double>> &init){ //Construct with 2d 2x2 vector
             mat = MatrixN(init);
         }
-        Matrix2(const MatrixN &init){ //Constructor with std::vector
+        Matrix2(const MatrixN &init){ //Construct with existing 2x2 MatrixN
             mat = init;
         }
             
@@ -567,10 +573,10 @@ namespace vmath{
         void set(unsigned int n, unsigned int m, double val) { mat.set(n,m,val); }
         double det(){ return mat.det(); }
         Matrix2 transpose(){ return Matrix2(mat.transpose()); }
-        bool is_normalized(){ return mat.is_normalized(); }            
+        bool is_normalized(){ return mat.is_normalized(); }
         bool is_orthogonalized(){ return mat.is_orthogonalized(); }
         bool is_orthonormalized(){ return mat.is_orthonormalized(); }
-        Matrix2 inverse(){    
+        Matrix2 inverse(){
             Matrix2 newmat;
             newmat.set(1,1,get(2,2));
             newmat.set(1,2,-get(1,2));
@@ -588,13 +594,14 @@ namespace vmath{
     struct Matrix3{
         MatrixN mat;
 
+        //Construct with matrix values
         Matrix3(double a11=0.,double a12=0.,double a13=0.,double a21=0.,double a22=0.,double a23=0.,double a31=0.,double a32=0.,double a33=0.){
             mat = MatrixN({{a11,a12,a13},{a21,a22,a23},{a31,a32,a33}});
         }
-        Matrix3(const std::vector<std::vector<double>> &init){ //Constructor with std::vector
+        Matrix3(const std::vector<std::vector<double>> &init){ //Construct with 2d 3x3 vector
             mat = MatrixN(init);
         }
-        Matrix3(const MatrixN &init){ //Constructor with std::vector
+        Matrix3(const MatrixN &init){ //Construct with existing 3x3 MatrixN
             mat = init;
         }
             
@@ -665,10 +672,10 @@ namespace vmath{
         void set(unsigned int n, unsigned int m, double val) { mat.set(n,m,val); }
         double det(){ return mat.det(); }
         Matrix2 transpose(){ return Matrix2(mat.transpose()); }
-        bool is_normalized(){ return mat.is_normalized(); }            
+        bool is_normalized(){ return mat.is_normalized(); }
         bool is_orthogonalized(){ return mat.is_orthogonalized(); }
         bool is_orthonormalized(){ return mat.is_orthonormalized(); }
-        Matrix3 inverse(){    
+        Matrix3 inverse(){
             Matrix3 newmat;
             newmat.set(1,1,get(2,2)*get(3,3) - get(2,3)*get(3,2));
             newmat.set(1,2,get(1,3)*get(3,2) - get(1,2)*get(3,3));
@@ -680,11 +687,11 @@ namespace vmath{
             newmat.set(3,2,get(1,2)*get(3,1) - get(1,1)*get(3,2));
             newmat.set(3,3,get(1,1)*get(2,2) - get(1,2)*get(2,1));
             newmat /= det();
-            return newmat;            
+            return newmat;
         }
 
     };
-
 }
 
 #endif
+
