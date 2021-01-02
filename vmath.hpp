@@ -40,7 +40,7 @@ namespace vmath{
                 if(this == &newvec) return *this;
                 vec = newvec.vec;
                 //vec.assign(newvec.dim(),0.);
-                //for(size_t i=0; i<vec.size(); i++) vec[i] = newvec.get(i+1);
+                //for(std::size_t i=0; i<vec.size(); i++) vec[i] = newvec.get(i+1);
                 return *this; 
             }
             bool operator==(const VectorN &vector){
@@ -53,19 +53,19 @@ namespace vmath{
             }
 
             VectorN &operator+=(const VectorN &addvec){ //Vector Addition
-                for(size_t i=0; i<vec.size(); i++) vec[i] += addvec.get(i+1);
+                for(std::size_t i=0; i<vec.size(); i++) vec[i] += addvec.get(i+1);
                 return *this;
             }
             VectorN &operator-=(const VectorN &addvec){ //Vector Subtraction
-                for(size_t i=0; i<vec.size(); i++) vec[i] -= addvec.get(i+1);
+                for(std::size_t i=0; i<vec.size(); i++) vec[i] -= addvec.get(i+1);
                 return *this;
             }
             VectorN &operator*=(const double num){ //Vector Scalar Multiplication
-                for(size_t i=0; i<vec.size(); i++) vec[i] *= num;
+                for(std::size_t i=0; i<vec.size(); i++) vec[i] *= num;
                 return *this;
             }
             VectorN &operator/=(const double num){ //Vector Scalar Division
-                for(size_t i=0; i<vec.size(); i++) vec[i] /= num;
+                for(std::size_t i=0; i<vec.size(); i++) vec[i] /= num;
                 return *this;
             }
 
@@ -113,7 +113,7 @@ namespace vmath{
             }
             double dot(const VectorN &dotvec){
                 double dotprod = 0.;
-                for(size_t i=0; i<vec.size(); i++) dotprod += vec[i] * dotvec.get(i+1);
+                for(std::size_t i=0; i<vec.size(); i++) dotprod += vec[i] * dotvec.get(i+1);
                 return dotprod;
             }
             VectorN abs(){
@@ -338,8 +338,8 @@ namespace vmath{
             MatrixN &operator=(const MatrixN &newmat){
                 if(this == &newmat) return *this;
                 mat.assign((newmat.dim()).x(),std::vector<double>((newmat.dim()).y(),0.));
-                for(size_t n=0; n<mat.size(); n++){
-                    for(size_t m=0; m<mat[n].size(); m++){
+                for(std::size_t n=0; n<mat.size(); n++){
+                    for(std::size_t m=0; m<mat[n].size(); m++){
                         mat[n][m] = newmat.get(n+1,m+1);
                     }
                 }
@@ -355,24 +355,24 @@ namespace vmath{
             }
             
             MatrixN &operator+=(const MatrixN &addmat){
-                for(size_t n=0; n<mat.size(); n++){
-                    for(size_t m=0; m<mat[n].size(); m++){
+                for(std::size_t n=0; n<mat.size(); n++){
+                    for(std::size_t m=0; m<mat[n].size(); m++){
                         mat[n][m] += addmat.get(n+1, m+1);
                     }
                 }
                 return *this;
             }
             MatrixN &operator-=(const MatrixN &addmat){
-                for(size_t n=0; n<mat.size(); n++){
-                    for(size_t m=0; m<mat[n].size(); m++){
+                for(std::size_t n=0; n<mat.size(); n++){
+                    for(std::size_t m=0; m<mat[n].size(); m++){
                         mat[n][m] -= addmat.get(n+1, m+1);
                     }
                 }
                 return *this;
             }
             MatrixN &operator*=(const double num){
-                for(size_t n=0; n<mat.size(); n++){
-                    for(size_t m=0; m<mat[n].size(); m++){
+                for(std::size_t n=0; n<mat.size(); n++){
+                    for(std::size_t m=0; m<mat[n].size(); m++){
                         mat[n][m] *= num;
                     }
                 }
@@ -380,10 +380,10 @@ namespace vmath{
             }
             MatrixN &operator*=(const MatrixN &multmat){
                 MatrixN tempmat = mat;
-                for(size_t i=0; i<mat.size(); i++){
-                    for(size_t k=0; k<mat[i].size(); k++){
+                for(std::size_t i=0; i<mat.size(); i++){
+                    for(std::size_t k=0; k<mat[i].size(); k++){
                         double val = 0.;
-                        for(size_t j=0; j<mat[i].size(); j++){
+                        for(std::size_t j=0; j<mat[i].size(); j++){
                             val += mat[i][j] * multmat.get(j+1,k+1);
                         }
                         tempmat.set(i+1,k+1,val);
@@ -393,8 +393,8 @@ namespace vmath{
                 return *this;
             }
             MatrixN &operator/=(const double num){
-                for(size_t n=0; n<mat.size(); n++){
-                    for(size_t m=0; m<mat[n].size(); m++){
+                for(std::size_t n=0; n<mat.size(); n++){
+                    for(std::size_t m=0; m<mat[n].size(); m++){
                         mat[n][m] /= num;
                     }
                 }
@@ -423,9 +423,9 @@ namespace vmath{
             }
             VectorN operator*(const VectorN &multvec){ //Matrix Vector Operation
                 VectorN newvec(multvec.dim());
-                for(size_t i=1; i<=multvec.dim(); i++){
+                for(std::size_t i=1; i<=multvec.dim(); i++){
                     double val = 0.;
-                    for(size_t j=1; j<=dim().y(); j++){
+                    for(std::size_t j=1; j<=dim().y(); j++){
                         val += get(i,j) * multvec.get(j);
                     }
                     newvec.set(i,val);
@@ -446,22 +446,22 @@ namespace vmath{
                 if(dim().x() == 2) return get(1,1) * get(2,2) - get(2,1) * get(1,2);
 
                 double val = 0.;
-                for(size_t jj=j; jj<=(dim()).y(); jj++){
+                for(std::size_t jj=j; jj<=(dim()).y(); jj++){
                     val += std::pow(-1,i+jj) * get(i,jj) * subdet(i,jj,*this);
                 }
                 return val;
             }
             MatrixN transpose(){
                 MatrixN newmat = *this;
-                for(size_t n=1; n<=dim().x(); n++){
-                    for(size_t m=1; m<=dim().y(); m++) newmat.set(n,m,get(m,n));
+                for(std::size_t n=1; n<=dim().x(); n++){
+                    for(std::size_t m=1; m<=dim().y(); m++) newmat.set(n,m,get(m,n));
                 }
                 return newmat;
             }
             bool is_normalized(){ //if length of every column == 1
-                for(size_t m=1; m<=dim().y(); m++){
+                for(std::size_t m=1; m<=dim().y(); m++){
                     std::vector<double> tempvec;
-                    for(size_t n=1; n<=dim().x(); n++) tempvec.push_back(get(n,m));
+                    for(std::size_t n=1; n<=dim().x(); n++) tempvec.push_back(get(n,m));
                     VectorN vector(tempvec);
                     if(!vector.is_normalized()) return false;
                 }
@@ -470,9 +470,9 @@ namespace vmath{
             bool is_orthogonalized(){ //if every column is perpendicular to every other one
                 std::vector<VectorN> vecholder;
                 
-                for(size_t m=1; m<=dim().y(); m++){
+                for(std::size_t m=1; m<=dim().y(); m++){
                     std::vector<double> tempvec;
-                    for(size_t n=1; n<=dim().x(); n++) tempvec.push_back(get(n,m));
+                    for(std::size_t n=1; n<=dim().x(); n++) tempvec.push_back(get(n,m));
                     vecholder.push_back(tempvec);
                 }
                 for(auto vector:vecholder){
