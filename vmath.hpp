@@ -9,6 +9,8 @@
 
     (TODO) Inheritance and (some) templates would be MUCH cleaner
         - Orthonormalization -> Gram-Schmidt
+        - Outer Product
+        - Trace
 */
 
 #ifndef VMATH_HPP
