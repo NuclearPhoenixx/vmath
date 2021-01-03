@@ -8,6 +8,7 @@
     Github: https://github.com/Phoenix1747/vmath
 
     (TODO) Inheritance and (some) templates would be MUCH cleaner
+    (TODO) Allow more/all other datatypes like (unsigned) integers,...
         - Orthonormalization -> Gram-Schmidt
         - Outer Product
         - Trace
