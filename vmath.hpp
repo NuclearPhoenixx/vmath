@@ -315,11 +315,11 @@ namespace vmath{
             type get(const unsigned int n, const unsigned int m) const{ return mat[n][m]; }
             void set(const unsigned int n, const unsigned int m, type val) { mat[n][m] = val; }
 
-            type det(const unsigned int i=1, const unsigned int j=1){
+            type det(const unsigned int i=1, const unsigned int j=1){ // Change starting index back to 0.
                 if(dim().x() == 2) return get(0,0) * get(1,1) - get(1,0) * get(0,1);
 
                 type val = 0;
-                for(std::size_t jj=j; jj<=(dim()).y(); jj++){
+                for(std::size_t jj=j; jj<=dim().y(); jj++){
                     val += std::pow(-1,i+jj) * get(i-1,jj-1) * subdet(i-1,jj-1,*this);
                 }
                 return val;
