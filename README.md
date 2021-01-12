@@ -12,6 +12,7 @@ Needs following parts of the C++ standard library:
 
 ## Features
 - 2- and 3-dimensional as well as arbitrary n-dimensional objects.
+- Vector and matrix classes support different data types.
 - Reasonable matrix and vector comparison and assignment operators.
 - Reasonable arithmetic operations using operators.
 - Basic linear algebra operations like dot product, cross product, transpose (only matrices), inverse (only Matrix2 and Matrix3), determinant...
