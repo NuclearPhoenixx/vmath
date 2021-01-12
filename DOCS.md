@@ -1,5 +1,5 @@
 # VectorN
-### template <class type=double> class VectorN
+### `template <class type=double> class VectorN`
 
 ```cpp
 VectorN(const unsigned int n=0)
@@ -67,7 +67,7 @@ double distance_to(const VectorN &tovec)
 Returns the distance between the vector and tovec.
 
 # Vector2
-### template <class type=double> struct Vector2: public VectorN<type>
+### `template <class type=double> struct Vector2: public VectorN<type>`
 
 **Vector2 inherits all functionality from VectorN. Therefore, you can do stuff like `Vector2.length()` just like above.**
 
@@ -114,7 +114,7 @@ Vector2<double> tangent()
 Returns another vector that is perpendicular to the vector. This is an alias for rotated(M_PI/2).
 
 # Vector3
-### template <class type=double> struct Vector3: public VectorN<type>
+### `template <class type=double> struct Vector3: public VectorN<type>`
 
 **Vector3 inherits all functionality from VectorN. Therefore, you can do stuff like `Vector3.length()` just like above.**
 
@@ -151,7 +151,7 @@ Vector3<double> cross(Vector3 &crossvec)
 Returns a new vector (always double!) that is perpendicular to the vector and crossvec.
 
 # MatrixN
-### template <class type=double> class MatrixN
+### `template <class type=double> class MatrixN`
 
 ```cpp
 MatrixN(const unsigned int n=0, const unsigned int m=0)
@@ -204,7 +204,7 @@ bool is_orthonormalized()
 Returns true if the matrix is normalized and orthogonalized.
 
 # Matrix2
-### template <class type=double> struct Matrix2: public MatrixN<type>
+### `template <class type=double> struct Matrix2: public MatrixN<type>`
 
 **Matrix2 inherits all functionality from MatrixN. Therefore, you can do stuff like `Matrix2.transpose()` just like above.**
 
@@ -231,7 +231,7 @@ Matrix2 inverse()
 Returns a new matrix which is the inverse of the matrix.
 
 # Matrix3
-### template <class type=double> struct Matrix3: public MatrixN<type>
+### `template <class type=double> struct Matrix3: public MatrixN<type>`
 
 **Matrix3 inherits all functionality from MatrixN. Therefore, you can do stuff like `Matrix3.transpose()` just like above.**
 
