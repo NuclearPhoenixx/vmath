@@ -66,6 +66,22 @@ double distance_to(const VectorN &tovec)
 ```
 Returns the distance between the vector and tovec.
 
+**Comparison Operators:**
+
+```cpp
+bool operator==(const VectorN &vector)
+bool operator!=(const VectorN &vector)
+```
+Checks if two vectors are _exactly_ the same vector.
+
+```cpp
+bool operator<(const VectorN &vector)
+bool operator>(const VectorN &vector)
+bool operator<=(const VectorN &vector)
+bool operator>=(const VectorN &vector)
+```
+Compares the length of two vectors (uses length_squared() for performance).
+
 # Vector2
 ### `template <class type=double> struct Vector2: public VectorN<type>`
 
@@ -202,6 +218,14 @@ Returns true if each column of the matrix is perpendicular to every other column
 bool is_orthonormalized()
 ```
 Returns true if the matrix is normalized and orthogonalized.
+
+**Comparison Operators:**
+
+```cpp
+bool operator==(const MatrixN &matrix)
+bool operator!=(const MatrixN &matrix)
+```
+Checks if two matrices are _exactly_ the same matrix.
 
 # Matrix2
 ### `template <class type=double> struct Matrix2: public MatrixN<type>`

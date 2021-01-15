@@ -50,16 +50,16 @@ namespace vmath{
                 return vec != vector.vec;
             }
             bool operator<(const VectorN &vector){
-                return length() < vector.length();
+                return length_squared() < vector.length_squared();
             }
             bool operator>(const VectorN &vector){
-                return length() > vector.length();
+                return length_squared() > vector.length_squared();
             }
             bool operator<=(const VectorN &vector){
-                return length() <= vector.length();
+                return length_squared() <= vector.length_squared();
             }
             bool operator>=(const VectorN &vector){
-                return length() >= vector.length();
+                return length_squared() >= vector.length_squared();
             }
 
             VectorN &operator+=(const VectorN &addvec){ // Vector Addition
@@ -238,10 +238,10 @@ namespace vmath{
                 return *this; 
             }
             bool operator==(const MatrixN &matrix){
-                return (mat == matrix.mat);
+                return mat == matrix.mat;
             }
             bool operator!=(const MatrixN &matrix){
-                return (mat != matrix.mat);
+                return mat != matrix.mat;
             }
             
             MatrixN &operator+=(const MatrixN &addmat){
