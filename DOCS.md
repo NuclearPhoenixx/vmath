@@ -211,9 +211,9 @@ Returns true if the matrix is normalized and orthogonalized.
 **Matrix2 features following additional properties and functions:**
 
 ```cpp
-Matrix2(type a11=0, type a12=0, type a21=0, type a22=0)
+Matrix2(type a11=1, type a12=0, type a21=0, type a22=1)
 ```
-Construct a Matrix2 object with all the according values.
+Construct a Matrix2 object with all the according values. Defaults to the identity matrix.
 
 ```cpp
 Matrix2(const std::vector<std::vector<type>> &init)
@@ -238,9 +238,9 @@ Returns a new matrix which is the inverse of the matrix.
 **Matrix3 features following additional properties and functions:**
 
 ```cpp
-Matrix3(type a11=0, type a12=0, type a13=0, type a21=0, type a22=0, type a23=0, type a31=0, type a32=0, type a33=0)
+Matrix3(type a11=1, type a12=0, type a13=0, type a21=0, type a22=1, type a23=0, type a31=0, type a32=0, type a33=1)
 ```
-Construct a Matrix3 object with all the according values.
+Construct a Matrix3 object with all the according values. Defaults to the identity matrix.
 
 ```cpp
 Matrix3(const std::vector<std::vector<type>> &init)

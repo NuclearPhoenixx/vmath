@@ -215,8 +215,13 @@ namespace vmath{
             std::vector<std::vector<type>> mat;
 
         public:
-            MatrixN(const unsigned int n=0, const unsigned int m=0){ // Create (n x m) matrix with values 0
+            MatrixN(unsigned int n=0, unsigned int m=0){ // Create (n x m) matrix with values 0
                 mat.assign(n,std::vector<type>(m,0));
+                while(n>0 && m>0){
+                    mat[n-1][m-1] = 1;
+                    n--;
+                    m--;
+                }
             }
             MatrixN(const std::vector<std::vector<type>> &init){ // Create matrix out of existing 2-dimensional vector
                 mat = init;
@@ -379,7 +384,7 @@ namespace vmath{
     */
     template <class type=double> struct Matrix2: public MatrixN<type>{
 
-        Matrix2(type a11=0, type a12=0, type a21=0, type a22=0){ // Construct with matrix values
+        Matrix2(type a11=1, type a12=0, type a21=0, type a22=1){ // Construct with matrix values
             this->mat = {{a11,a12},{a21,a22}};
         }
         Matrix2(const std::vector<std::vector<type>> &init){ // Create matrix out of existing 2x2 vector
@@ -412,7 +417,7 @@ namespace vmath{
     */
     template <class type=double> struct Matrix3: public MatrixN<type>{
 
-        Matrix3(type a11=0, type a12=0, type a13=0, type a21=0, type a22=0, type a23=0, type a31=0, type a32=0, type a33=0){ // Construct with matrix values
+        Matrix3(type a11=1, type a12=0, type a13=0, type a21=0, type a22=1, type a23=0, type a31=0, type a32=0, type a33=1){ // Construct with matrix values
             this->mat = {{a11,a12,a13},{a21,a22,a23},{a31,a32,a33}};
         }
         Matrix3(const std::vector<std::vector<type>> &init){ // Construct with 2d 3x3 vector
