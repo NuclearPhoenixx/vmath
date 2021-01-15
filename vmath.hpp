@@ -328,7 +328,10 @@ namespace vmath{
                 return newmat;
             }
 
-            Vector2<unsigned int> dim() const{ return Vector2<unsigned int>(mat.size(),mat[0].size()); }
+            Vector2<unsigned int> dim() const{
+                if(mat.size() == 0) return Vector2<unsigned int>();
+                return Vector2<unsigned int>(mat.size(),mat[0].size());
+            }
             type get(const unsigned int n, const unsigned int m) const{ return mat[n][m]; }
             void set(const unsigned int n, const unsigned int m, type val) { mat[n][m] = val; }
 
