@@ -44,10 +44,22 @@ namespace vmath{
                 return *this; 
             }
             bool operator==(const VectorN &vector){
-                return (vec == vector.vec);
+                return vec == vector.vec;
             }
             bool operator!=(const VectorN &vector){
-                return (vec != vector.vec);
+                return vec != vector.vec;
+            }
+            bool operator<(const VectorN &vector){
+                return length() < vector.length();
+            }
+            bool operator>(const VectorN &vector){
+                return length() > vector.length();
+            }
+            bool operator<=(const VectorN &vector){
+                return length() <= vector.length();
+            }
+            bool operator>=(const VectorN &vector){
+                return length() >= vector.length();
             }
 
             VectorN &operator+=(const VectorN &addvec){ // Vector Addition
