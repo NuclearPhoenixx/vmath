@@ -66,7 +66,7 @@ double distance_to(const VectorN &tovec)
 ```
 Returns the distance between the vector and tovec.
 
-**Comparison Operators:**
+### Comparison Operators
 
 ```cpp
 bool operator==(const VectorN &vector)
@@ -172,7 +172,7 @@ Returns a new vector (always double!) that is perpendicular to the vector and cr
 ```cpp
 MatrixN(const unsigned int n=0, const unsigned int m=0)
 ```
-Construct a (n x m) matrix with values all being 0.
+Construct an (n x m) matrix. Defaults to the identity matrix if dimensions are non-zero.
 
 ```cpp
 MatrixN(const std::vector<std::vector<type>> &init)
@@ -219,7 +219,7 @@ bool is_orthonormalized()
 ```
 Returns true if the matrix is normalized and orthogonalized.
 
-**Comparison Operators:**
+### Comparison Operators
 
 ```cpp
 bool operator==(const MatrixN &matrix)
