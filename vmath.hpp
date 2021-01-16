@@ -149,7 +149,7 @@ namespace vmath{
         }
         Vector2(const VectorN<type> &v){ // Create vector out of existing VectorN
             this->vec.assign(2,0);
-            for(unsigned int i=0; i<2; i++) this->vec.at(i) = v.get(i);
+            for(unsigned char i=0; i<2; i++) this->vec.at(i) = v.get(i);
         }
 
         type x() const{ return this->get(0); } // Return first coord
@@ -182,7 +182,7 @@ namespace vmath{
         }
         Vector3(const VectorN<type> &v){ // Create vector out of existing vector
             this->vec.assign(3,0);
-            for(unsigned int i=0; i<3; i++) this->vec.at(i) = v.get(i);
+            for(unsigned char i=0; i<3; i++) this->vec.at(i) = v.get(i);
         }
 
         type x() const{ return this->get(0); }
@@ -401,8 +401,8 @@ namespace vmath{
         }
         Matrix2(const MatrixN<type> &init){ // Construct with existing 2x2 MatrixN
             this->mat.assign(2, std::vector<type>(2,0));
-            for(unsigned int n=0; n<2; n++){
-                for(unsigned int m=0; m<2; m++){
+            for(unsigned char n=0; n<2; n++){
+                for(unsigned char m=0; m<2; m++){
                     this->mat.at(n).at(m) = init.get(n,m);
                 }
             }
@@ -434,8 +434,8 @@ namespace vmath{
         }
         Matrix3(const MatrixN<type> &init){ // Construct with existing 3x3 MatrixN
             this->mat.assign(3, std::vector<type>(3,0));
-            for(unsigned int n=0; n<3; n++){
-                for(unsigned int m=0; m<3; m++){
+            for(unsigned char n=0; n<3; n++){
+                for(unsigned char m=0; m<3; m++){
                     this->mat.at(n).at(m) = init.get(n,m);
                 }
             }
