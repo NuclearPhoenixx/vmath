@@ -47,7 +47,7 @@ namespace vmath{
                 return vec == vector.vec;
             }
             bool operator!=(const VectorN &vector){
-                return vec != vector.vec;
+                return !(vec == vector.vec);
             }
             bool operator<(const VectorN &vector){
                 return length_squared() < vector.length_squared();
@@ -102,7 +102,7 @@ namespace vmath{
 
             unsigned int dim() const{ return vec.size(); } // Return vector dimension
             type get(const unsigned int i) const{ return vec[i]; }
-            void set(const unsigned int i, type val) { vec[i] = val; }
+            void set(const unsigned int i, type val){ vec[i] = val; }
 
             type length_squared() const{
                 type l = 0;
@@ -111,28 +111,28 @@ namespace vmath{
             }
             double length() const{ return std::sqrt(length_squared()); }
             
-            bool is_normalized(){
+            bool is_normalized() const{
                 if(length_squared() == 1) return true;
                 return false;
             }
-            VectorN normalized(){
+            VectorN normalized() const{
                 if(is_normalized()) return *this;
                 VectorN newvec = *this;
                 newvec /= newvec.length();
                 return newvec;
             }
-            type dot(const VectorN &dotvec){
+            type dot(const VectorN &dotvec) const{
                 type dotprod = 0;
                 for(std::size_t i=0; i<vec.size(); i++) dotprod += vec[i] * dotvec.get(i);
                 return dotprod;
             }
-            VectorN abs(){
+            VectorN abs() const{
                 std::vector<type> newvec;
                 for(auto val:vec) newvec.push_back(std::abs(val));
                 return VectorN(newvec);
             }
-            type distance_squared_to(const VectorN &tovec){ return (*this-tovec).length_squared(); }
-            double distance_to(const VectorN &tovec){ return (*this-tovec).length(); }
+            type distance_squared_to(const VectorN &tovec) const{ return (*this-tovec).length_squared(); }
+            double distance_to(const VectorN &tovec) const{ return (*this-tovec).length(); }
     };
 
 
@@ -149,22 +149,22 @@ namespace vmath{
             for(unsigned int i=0; i<2; i++) this->vec[i] = v.get(i);
         }
 
-        type x(){ return this->get(0); } // Return first coord
-        type y(){ return this->get(1); } // Return second coord
+        type x() const{ return this->get(0); } // Return first coord
+        type y() const{ return this->get(1); } // Return second coord
 
-        double angle_to(const Vector2 &tovec){
+        double angle_to(const Vector2 &tovec) const{
             const double dotprod = this->dot(tovec);
             const double lengthprod = this->length() * tovec.length();
             return std::acos(dotprod/lengthprod);
         }
-        double aspect(){ return double(x()) / y(); }
+        double aspect() const{ return double(x()) / y(); }
 
-        Vector2<double> rotated(const double phi){
+        Vector2<double> rotated(const double phi) const{
             const double xi = x() * std::cos(phi) - y() * std::sin(phi);
             const double yi = y() * std::cos(phi) + x() * std::sin(phi);
             return Vector2<double>(xi,yi);
         }
-        Vector2<double> tangent(){ return rotated(M_PI/2); }
+        Vector2<double> tangent() const{ return rotated(M_PI/2); }
         
     };
 
@@ -182,11 +182,11 @@ namespace vmath{
             for(unsigned int i=0; i<3; i++) this->vec[i] = v.get(i);
         }
 
-        type x(){ return this->get(0); }
-        type y(){ return this->get(1); }
-        type z(){ return this->get(2); }
+        type x() const{ return this->get(0); }
+        type y() const{ return this->get(1); }
+        type z() const{ return this->get(2); }
 
-        Vector3<double> cross(Vector3 &crossvec){
+        Vector3<double> cross(Vector3 &crossvec) const{
             const double newx = y() * crossvec.z() - z() * crossvec.y();
             const double newy = z() * crossvec.x() - x() * crossvec.z();
             const double newz = x() * crossvec.y() - y() * crossvec.x();
@@ -205,7 +205,7 @@ namespace vmath{
             void remove_line(const unsigned int i=0){ mat.erase(mat.begin()+i); }
             void remove_column(const unsigned int i=0){ for(auto &matrix:mat) matrix.erase(matrix.begin()+i); }
 
-            type subdet(const unsigned int i, const unsigned int j, MatrixN matrix){
+            type subdet(const unsigned int i, const unsigned int j, MatrixN matrix) const{
                 matrix.remove_line(i);
                 matrix.remove_column(j);
                 return matrix.det();
@@ -237,11 +237,11 @@ namespace vmath{
                 }
                 return *this; 
             }
-            bool operator==(const MatrixN &matrix){
+            bool operator==(const MatrixN &matrix) const{
                 return mat == matrix.mat;
             }
-            bool operator!=(const MatrixN &matrix){
-                return mat != matrix.mat;
+            bool operator!=(const MatrixN &matrix) const{
+                return !(mat == matrix.mat);
             }
             
             MatrixN &operator+=(const MatrixN &addmat){
@@ -291,27 +291,27 @@ namespace vmath{
                 return *this;
             }
             
-            MatrixN operator+(const MatrixN &addmat){
+            MatrixN operator+(const MatrixN &addmat) const{
                 MatrixN newmat = *this;
                 newmat += addmat;
                 return newmat;
             }
-            MatrixN operator-(const MatrixN &addmat){
+            MatrixN operator-(const MatrixN &addmat) const{
                 MatrixN newmat = *this;
                 newmat -= addmat;
                 return newmat;
             }
-            MatrixN operator*(const type num){ // Matrix Scalar Operation
+            MatrixN operator*(const type num) const{ // Matrix Scalar Operation
                 MatrixN newmat = *this;
                 newmat *= num;
                 return newmat;
             }
-            MatrixN operator*(const MatrixN &multmat){ // Matrix Matrix Operation
+            MatrixN operator*(const MatrixN &multmat) const{ // Matrix Matrix Operation
                 MatrixN newmat = *this;
                 newmat *= multmat;
                 return newmat;
             }
-            VectorN<type> operator*(const VectorN<type> &multvec){ // Matrix Vector Operation
+            VectorN<type> operator*(const VectorN<type> &multvec) const{ // Matrix Vector Operation
                 VectorN<type> newvec(multvec.dim());
                 for(std::size_t i=0; i<multvec.dim(); i++){
                     type val = 0;
@@ -322,7 +322,7 @@ namespace vmath{
                 }
                 return newvec;
             }
-            MatrixN operator/(const type num){
+            MatrixN operator/(const type num) const{
                 MatrixN newmat = *this;
                 newmat /= num;
                 return newmat;
@@ -335,7 +335,7 @@ namespace vmath{
             type get(const unsigned int n, const unsigned int m) const{ return mat[n][m]; }
             void set(const unsigned int n, const unsigned int m, type val) { mat[n][m] = val; }
 
-            type det(const unsigned int i=1, const unsigned int j=1){ // Change starting index back to 0.
+            type det(const unsigned int i=1, const unsigned int j=1) const{ // Todo: Change starting index back to 0.
                 if(dim().x() == 2) return get(0,0) * get(1,1) - get(1,0) * get(0,1);
 
                 type val = 0;
@@ -344,14 +344,14 @@ namespace vmath{
                 }
                 return val;
             }
-            MatrixN transpose(){
+            MatrixN transpose() const{
                 MatrixN<type> newmat = *this;
                 for(std::size_t n=0; n<dim().x(); n++){
                     for(std::size_t m=0; m<dim().y(); m++) newmat.set(n,m,get(m,n));
                 }
                 return newmat;
             }
-            bool is_normalized(){ // If length of every column == 1
+            bool is_normalized() const{ // If length of every column == 1
                 for(std::size_t m=0; m<dim().y(); m++){
                     std::vector<type> tempvec;
                     for(std::size_t n=0; n<dim().x(); n++) tempvec.push_back(get(n,m));
@@ -359,7 +359,7 @@ namespace vmath{
                 }
                 return true;
             }
-            bool is_orthogonalized(){ // If every column is perpendicular to every other one
+            bool is_orthogonalized() const{ // If every column is perpendicular to every other one
                 std::vector<VectorN<type>> vecholder;
                 
                 for(std::size_t m=0; m<dim().y(); m++){
@@ -375,7 +375,7 @@ namespace vmath{
                 }
                 return true;
             }
-            bool is_orthonormalized(){
+            bool is_orthonormalized() const{
                 return (is_orthogonalized() && is_normalized());
             }
             
@@ -402,7 +402,7 @@ namespace vmath{
             }
         }
         
-        Matrix2 inverse(){
+        Matrix2 inverse() const{
             Matrix2 newmat;
             newmat.set(0,0, this->get(1,1));
             newmat.set(0,1, -this->get(0,1));
@@ -435,7 +435,7 @@ namespace vmath{
             }
         }
         
-        Matrix3 inverse(){
+        Matrix3 inverse() const{
             Matrix3 newmat;
             newmat.set(0,0, this->get(1,1) * this->get(2,2) - this->get(1,2) * this->get(2,1));
             newmat.set(0,1, this->get(0,2) * this->get(2,1) - this->get(0,1) * this->get(2,2));
