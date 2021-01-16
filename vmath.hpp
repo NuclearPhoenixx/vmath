@@ -43,22 +43,22 @@ namespace vmath{
                 vec = newvec.vec;
                 return *this; 
             }
-            bool operator==(const VectorN &vector){
+            bool operator==(const VectorN &vector) const{
                 return vec == vector.vec;
             }
-            bool operator!=(const VectorN &vector){
+            bool operator!=(const VectorN &vector) const{
                 return !(vec == vector.vec);
             }
-            bool operator<(const VectorN &vector){
+            bool operator<(const VectorN &vector) const{
                 return length_squared() < vector.length_squared();
             }
-            bool operator>(const VectorN &vector){
+            bool operator>(const VectorN &vector) const{
                 return length_squared() > vector.length_squared();
             }
-            bool operator<=(const VectorN &vector){
+            bool operator<=(const VectorN &vector) const{
                 return length_squared() <= vector.length_squared();
             }
-            bool operator>=(const VectorN &vector){
+            bool operator>=(const VectorN &vector) const{
                 return length_squared() >= vector.length_squared();
             }
 
@@ -79,22 +79,22 @@ namespace vmath{
                 return *this;
             }
 
-            VectorN operator+(const VectorN &addvec){
+            VectorN operator+(const VectorN &addvec) const{
                 VectorN newvec = *this;
                 newvec += addvec;
                 return newvec;
             }
-            VectorN operator-(const VectorN &addvec){
+            VectorN operator-(const VectorN &addvec) const{
                 VectorN newvec = *this;
                 newvec -= addvec;
                 return newvec;
             }
-            VectorN operator*(const type num){
+            VectorN operator*(const type num) const{
                 VectorN newvec = *this;
                 newvec *= num;
                 return newvec;
             }
-            VectorN operator/(const type num){
+            VectorN operator/(const type num) const{
                 VectorN newvec = *this;
                 newvec /= num;
                 return newvec;
