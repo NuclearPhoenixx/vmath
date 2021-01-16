@@ -10,7 +10,8 @@ To include this lib in your project you only need to grab the [vmath.hpp](vmath.
 
 Needs following parts of the C++ standard library:
 - `<cmath>` for a couple of math functions and the Pi constant.
-- `<vector>` for the underlying data structure.
+- `<vector>` is where all the vector/matrix data is saved.
+
 
 ## Features
 - 2- and 3-dimensional as well as arbitrary n-dimensional objects.
