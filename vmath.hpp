@@ -63,19 +63,19 @@ namespace vmath{
             }
 
             VectorN &operator+=(const VectorN &addvec){ // Vector Addition
-                for(std::size_t i=0; i<vec.size(); i++) vec[i] += addvec.get(i);
+                for(std::size_t i=0; i<vec.size(); i++) vec.at(i) += addvec.get(i);
                 return *this;
             }
             VectorN &operator-=(const VectorN &addvec){ // Vector Subtraction
-                for(std::size_t i=0; i<vec.size(); i++) vec[i] -= addvec.get(i);
+                for(std::size_t i=0; i<vec.size(); i++) vec.at(i) -= addvec.get(i);
                 return *this;
             }
             VectorN &operator*=(const type num){ // Vector Scalar Multiplication
-                for(std::size_t i=0; i<vec.size(); i++) vec[i] *= num;
+                for(std::size_t i=0; i<vec.size(); i++) vec.at(i) *= num;
                 return *this;
             }
             VectorN &operator/=(const type num){ // Vector Scalar Division
-                for(std::size_t i=0; i<vec.size(); i++) vec[i] /= num;
+                for(std::size_t i=0; i<vec.size(); i++) vec.at(i) /= num;
                 return *this;
             }
 
@@ -101,8 +101,8 @@ namespace vmath{
             }
 
             unsigned int dim() const{ return vec.size(); } // Return vector dimension
-            type get(const unsigned int i) const{ return vec[i]; }
-            void set(const unsigned int i, type val){ vec[i] = val; }
+            type get(const unsigned int i) const{ return type(vec.at(i)); }
+            void set(const unsigned int i, type val){ vec.at(i) = val; }
 
             type length_squared() const{
                 type l = 0;
@@ -123,7 +123,7 @@ namespace vmath{
             }
             type dot(const VectorN &dotvec) const{
                 type dotprod = 0;
-                for(std::size_t i=0; i<vec.size(); i++) dotprod += vec[i] * dotvec.get(i);
+                for(std::size_t i=0; i<vec.size(); i++) dotprod += vec.at(i) * dotvec.get(i);
                 return dotprod;
             }
             VectorN abs() const{
@@ -146,7 +146,7 @@ namespace vmath{
         }
         Vector2(const VectorN<type> &v){ // Create vector out of existing VectorN
             this->vec.assign(2,0);
-            for(unsigned int i=0; i<2; i++) this->vec[i] = v.get(i);
+            for(unsigned int i=0; i<2; i++) this->vec.at(i) = v.get(i);
         }
 
         type x() const{ return this->get(0); } // Return first coord
@@ -179,7 +179,7 @@ namespace vmath{
         }
         Vector3(const VectorN<type> &v){ // Create vector out of existing vector
             this->vec.assign(3,0);
-            for(unsigned int i=0; i<3; i++) this->vec[i] = v.get(i);
+            for(unsigned int i=0; i<3; i++) this->vec.at(i) = v.get(i);
         }
 
         type x() const{ return this->get(0); }
@@ -218,7 +218,7 @@ namespace vmath{
             MatrixN(unsigned int n=0, unsigned int m=0){ // Create (n x m) matrix with values 0
                 mat.assign(n,std::vector<type>(m,0));
                 while(n>0 && m>0){
-                    mat[n-1][m-1] = 1;
+                    mat.at(n-1).at(m-1) = 1;
                     n--;
                     m--;
                 }
@@ -231,8 +231,8 @@ namespace vmath{
                 if(this == &newmat) return *this;
                 mat.assign(newmat.dim().x(), std::vector<type>(newmat.dim().y(), 0));
                 for(std::size_t n=0; n<mat.size(); n++){
-                    for(std::size_t m=0; m<mat[n].size(); m++){
-                        mat[n][m] = newmat.get(n,m);
+                    for(std::size_t m=0; m<mat.at(n).size(); m++){
+                        mat.at(n).at(m) = newmat.get(n,m);
                     }
                 }
                 return *this; 
@@ -246,24 +246,24 @@ namespace vmath{
             
             MatrixN &operator+=(const MatrixN &addmat){
                 for(std::size_t n=0; n<mat.size(); n++){
-                    for(std::size_t m=0; m<mat[n].size(); m++){
-                        mat[n][m] += addmat.get(n, m);
+                    for(std::size_t m=0; m<mat.at(n).size(); m++){
+                        mat.at(n).at(m) += addmat.get(n, m);
                     }
                 }
                 return *this;
             }
             MatrixN &operator-=(const MatrixN &addmat){
                 for(std::size_t n=0; n<mat.size(); n++){
-                    for(std::size_t m=0; m<mat[n].size(); m++){
-                        mat[n][m] -= addmat.get(n, m);
+                    for(std::size_t m=0; m<mat.at(n).size(); m++){
+                        mat.at(n).at(m) -= addmat.get(n, m);
                     }
                 }
                 return *this;
             }
             MatrixN &operator*=(const type num){
                 for(std::size_t n=0; n<mat.size(); n++){
-                    for(std::size_t m=0; m<mat[n].size(); m++){
-                        mat[n][m] *= num;
+                    for(std::size_t m=0; m<mat.at(n).size(); m++){
+                        mat.at(n).at(m) *= num;
                     }
                 }
                 return *this;
@@ -271,10 +271,10 @@ namespace vmath{
             MatrixN &operator*=(const MatrixN &multmat){
                 MatrixN tempmat(dim().x(), dim().y());
                 for(std::size_t i=0; i<mat.size(); i++){
-                    for(std::size_t k=0; k<mat[i].size(); k++){
+                    for(std::size_t k=0; k<mat.at(i).size(); k++){
                         type val = 0;
-                        for(std::size_t j=0; j<mat[i].size(); j++){
-                            val += mat[i][j] * multmat.get(j,k);
+                        for(std::size_t j=0; j<mat.at(i).size(); j++){
+                            val += mat.at(i).at(j) * multmat.get(j,k);
                         }
                         tempmat.set(i,k,val);
                     }
@@ -284,8 +284,8 @@ namespace vmath{
             }
             MatrixN &operator/=(const type num){
                 for(std::size_t n=0; n<mat.size(); n++){
-                    for(std::size_t m=0; m<mat[n].size(); m++){
-                        mat[n][m] /= num;
+                    for(std::size_t m=0; m<mat.at(n).size(); m++){
+                        mat.at(n).at(m) /= num;
                     }
                 }
                 return *this;
@@ -330,10 +330,10 @@ namespace vmath{
 
             Vector2<unsigned int> dim() const{
                 if(mat.size() == 0) return Vector2<unsigned int>();
-                return Vector2<unsigned int>(mat.size(),mat[0].size());
+                return Vector2<unsigned int>(mat.size(),mat.at(0).size());
             }
-            type get(const unsigned int n, const unsigned int m) const{ return mat[n][m]; }
-            void set(const unsigned int n, const unsigned int m, type val) { mat[n][m] = val; }
+            type get(const unsigned int n, const unsigned int m) const{ return mat.at(n).at(m); }
+            void set(const unsigned int n, const unsigned int m, type val) { mat.at(n).at(m) = val; }
 
             type det(const unsigned int i=1, const unsigned int j=1) const{ // Todo: Change starting index back to 0.
                 if(dim().x() == 2) return get(0,0) * get(1,1) - get(1,0) * get(0,1);
@@ -397,7 +397,7 @@ namespace vmath{
             this->mat.assign(2, std::vector<type>(2,0));
             for(std::size_t n=0; n<2; n++){
                 for(std::size_t m=0; m<2; m++){
-                    this->mat[n][m] = init.get(n,m);
+                    this->mat.at(n).at(m) = init.get(n,m);
                 }
             }
         }
@@ -430,7 +430,7 @@ namespace vmath{
             this->mat.assign(3, std::vector<type>(3,0));
             for(std::size_t n=0; n<3; n++){
                 for(std::size_t m=0; m<3; m++){
-                    this->mat[n][m] = init.get(n,m);
+                    this->mat.at(n).at(m) = init.get(n,m);
                 }
             }
         }
