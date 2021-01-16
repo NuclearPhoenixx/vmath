@@ -2,7 +2,7 @@
 ### `template <class type=double> class VectorN`
 
 ```cpp
-VectorN(const unsigned int n=0)
+VectorN(const std::size_t n=0)
 ```
 Constructor for n-dimensional Vector with values 0.
 
@@ -12,17 +12,17 @@ VectorN(const std::vector<type> &init)
 Constructor taking all the values of an existing vector.
 
 ```cpp
-unsigned int dim()
+std::size_t dim()
 ```
 Returns the vector dimension.
 
 ```cpp 
-type get(const unsigned int i)
+type get(const std::size_t i)
 ```
 Returns value at position i. Starting at i=0. With bounds checking.
 
 ```cpp
-void set(const unsigned int i, type val)
+void set(const std::size_t i, type val)
 ```
 Sets vector value at positon i to val. With bounds checking.
 
@@ -83,7 +83,7 @@ bool operator>=(const VectorN &vector)
 Compares the length of two vectors (uses length_squared() for performance).
 
 ```cpp
-type &operator[](const unsigned int pos)
+type &operator[](const std::size_t pos)
 ```
 Returns a reference to the element at pos. No bounds checking.
 
@@ -175,7 +175,7 @@ Returns a new vector (always double!) that is perpendicular to the vector and cr
 ### `template <class type=double> class MatrixN`
 
 ```cpp
-MatrixN(const unsigned int n=0, const unsigned int m=0)
+MatrixN(const std::size_t n=0, const std::size_t m=0)
 ```
 Construct an (n x m) matrix. Defaults to the identity matrix if dimensions are non-zero.
 
@@ -185,22 +185,22 @@ MatrixN(const std::vector<std::vector<type>> &init)
 Constructs a matrix out of an existing two-dimensional vector.
 
 ```cpp
-Vector2<unsigned int> dim()
+Vector2<std::size_t> dim()
 ```
-Returns a Vector2 (always unsigned int!) with the matrix dimensions. x is n dimension, y is m dimension of a (n x m) matrix.
+Returns a Vector2 (always std::size_t!) with the matrix dimensions. x is n dimension, y is m dimension of a (n x m) matrix.
 
 ```cpp
-type get(const unsigned int n, const unsigned int m)
+type get(const std::size_t n, const std::size_t m)
 ```
 Gets the value at the nth row and mth column. Starts at 0. With bounds checking.
 
 ```cpp
-void set(const unsigned int n, const unsigned int m, type val)
+void set(const std::size_t n, const std::size_t m, type val)
 ```
 Sets the value at the nth row and mth column to val. With bounds checking.
 
 ```cpp
-type det(const unsigned int i=1, const unsigned int j=1)
+type det(const std::size_t i=1, const std::size_t j=1)
 ```
 Returns the determinant. Uses Laplace expansion starting at n=i=1, m=j=1 default.
 
@@ -233,7 +233,7 @@ bool operator!=(const MatrixN &matrix)
 Checks if two matrices are _exactly_ the same matrix.
 
 ```cpp
-std::vector<type> &operator[](const unsigned int pos)
+std::vector<type> &operator[](const std::size_t pos)
 ```
 Returns an std::vector reference to the row at pos. No bounds checking.
 

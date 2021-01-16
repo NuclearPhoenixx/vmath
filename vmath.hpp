@@ -31,7 +31,7 @@ namespace vmath{
             std::vector<type> vec;
 
         public:
-            VectorN(const unsigned int n=0){ // Constructor for vector dimension n
+            VectorN(const std::size_t n=0){ // Constructor for vector dimension n
                 vec.assign(n,0);
             }
             VectorN(const std::vector<type> &init){
@@ -61,7 +61,7 @@ namespace vmath{
             bool operator>=(const VectorN &vector) const{
                 return length_squared() >= vector.length_squared();
             }
-            type &operator[](const unsigned int pos){
+            type &operator[](const std::size_t pos){
                 return vec[pos];
             }
 
@@ -103,9 +103,9 @@ namespace vmath{
                 return newvec;
             }
 
-            unsigned int dim() const{ return vec.size(); } // Return vector dimension
-            type get(const unsigned int i) const{ return type(vec.at(i)); }
-            void set(const unsigned int i, type val){ vec.at(i) = val; }
+            std::size_t dim() const{ return vec.size(); } // Return vector dimension
+            type get(const std::size_t i) const{ return type(vec.at(i)); }
+            void set(const std::size_t i, type val){ vec.at(i) = val; }
 
             type length_squared() const{
                 type l = 0;
@@ -205,10 +205,10 @@ namespace vmath{
     template <class type=double> class MatrixN{
         
         private:
-            void remove_line(const unsigned int i=0){ mat.erase(mat.begin()+i); }
-            void remove_column(const unsigned int i=0){ for(auto &matrix:mat) matrix.erase(matrix.begin()+i); }
+            void remove_line(const std::size_t i=0){ mat.erase(mat.begin()+i); }
+            void remove_column(const std::size_t i=0){ for(auto &matrix:mat) matrix.erase(matrix.begin()+i); }
 
-            type subdet(const unsigned int i, const unsigned int j, MatrixN matrix) const{
+            type subdet(const std::size_t i, const std::size_t j, MatrixN matrix) const{
                 matrix.remove_line(i);
                 matrix.remove_column(j);
                 return matrix.det();
@@ -218,7 +218,7 @@ namespace vmath{
             std::vector<std::vector<type>> mat;
 
         public:
-            MatrixN(unsigned int n=0, unsigned int m=0){ // Create (n x m) matrix with values 0
+            MatrixN(std::size_t n=0, std::size_t m=0){ // Create (n x m) matrix with values 0
                 mat.assign(n,std::vector<type>(m,0));
                 while(n>0 && m>0){
                     mat.at(n-1).at(m-1) = 1;
@@ -246,7 +246,7 @@ namespace vmath{
             bool operator!=(const MatrixN &matrix) const{
                 return !(mat == matrix.mat);
             }
-            std::vector<type> &operator[](const unsigned int pos){
+            std::vector<type> &operator[](const std::size_t pos){
                 return mat[pos];
             }
             
@@ -334,14 +334,14 @@ namespace vmath{
                 return newmat;
             }
 
-            Vector2<unsigned int> dim() const{
-                if(mat.size() == 0) return Vector2<unsigned int>();
-                return Vector2<unsigned int>(mat.size(),mat.at(0).size());
+            Vector2<std::size_t> dim() const{
+                if(mat.size() == 0) return Vector2<std::size_t>();
+                return Vector2<std::size_t>(mat.size(),mat.at(0).size());
             }
-            type get(const unsigned int n, const unsigned int m) const{ return mat.at(n).at(m); }
-            void set(const unsigned int n, const unsigned int m, type val) { mat.at(n).at(m) = val; }
+            type get(const std::size_t n, const std::size_t m) const{ return mat.at(n).at(m); }
+            void set(const std::size_t n, const std::size_t m, type val) { mat.at(n).at(m) = val; }
 
-            type det(const unsigned int i=1, const unsigned int j=1) const{ // Todo: Change starting index back to 0.
+            type det(const std::size_t i=1, const std::size_t j=1) const{ // Todo: Change starting index back to 0.
                 if(dim().x() == 2) return get(0,0) * get(1,1) - get(1,0) * get(0,1);
 
                 type val = 0;
@@ -401,8 +401,8 @@ namespace vmath{
         }
         Matrix2(const MatrixN<type> &init){ // Construct with existing 2x2 MatrixN
             this->mat.assign(2, std::vector<type>(2,0));
-            for(std::size_t n=0; n<2; n++){
-                for(std::size_t m=0; m<2; m++){
+            for(unsigned int n=0; n<2; n++){
+                for(unsigned int m=0; m<2; m++){
                     this->mat.at(n).at(m) = init.get(n,m);
                 }
             }
@@ -434,8 +434,8 @@ namespace vmath{
         }
         Matrix3(const MatrixN<type> &init){ // Construct with existing 3x3 MatrixN
             this->mat.assign(3, std::vector<type>(3,0));
-            for(std::size_t n=0; n<3; n++){
-                for(std::size_t m=0; m<3; m++){
+            for(unsigned int n=0; n<3; n++){
+                for(unsigned int m=0; m<3; m++){
                     this->mat.at(n).at(m) = init.get(n,m);
                 }
             }
