@@ -19,12 +19,12 @@ Returns the vector dimension.
 ```cpp 
 type get(const unsigned int i)
 ```
-Returns value at position i. Starting at i=0.
+Returns value at position i. Starting at i=0. With bounds checking.
 
 ```cpp
 void set(const unsigned int i, type val)
 ```
-Sets vector value at positon i to val.
+Sets vector value at positon i to val. With bounds checking.
 
 ```cpp
 type length_squared()
@@ -81,6 +81,11 @@ bool operator<=(const VectorN &vector)
 bool operator>=(const VectorN &vector)
 ```
 Compares the length of two vectors (uses length_squared() for performance).
+
+```cpp
+type &operator[](const unsigned int pos)
+```
+Returns a reference to the element at pos. No bounds checking.
 
 # Vector2
 ### `template <class type=double> struct Vector2: public VectorN<type>`
@@ -187,12 +192,12 @@ Returns a Vector2 (always unsigned int!) with the matrix dimensions. x is n dime
 ```cpp
 type get(const unsigned int n, const unsigned int m)
 ```
-Gets the value at the nth row and mth column. Starts at 0.
+Gets the value at the nth row and mth column. Starts at 0. With bounds checking.
 
 ```cpp
 void set(const unsigned int n, const unsigned int m, type val)
 ```
-Sets the value at the nth row and mth column to val.
+Sets the value at the nth row and mth column to val. With bounds checking.
 
 ```cpp
 type det(const unsigned int i=1, const unsigned int j=1)
@@ -226,6 +231,11 @@ bool operator==(const MatrixN &matrix)
 bool operator!=(const MatrixN &matrix)
 ```
 Checks if two matrices are _exactly_ the same matrix.
+
+```cpp
+std::vector<type> &operator[](const unsigned int pos)
+```
+Returns an std::vector reference to the row at pos. No bounds checking.
 
 # Matrix2
 ### `template <class type=double> struct Matrix2: public MatrixN<type>`

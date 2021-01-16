@@ -61,6 +61,9 @@ namespace vmath{
             bool operator>=(const VectorN &vector) const{
                 return length_squared() >= vector.length_squared();
             }
+            type &operator[](const unsigned int pos){
+                return vec[pos];
+            }
 
             VectorN &operator+=(const VectorN &addvec){ // Vector Addition
                 for(std::size_t i=0; i<vec.size(); i++) vec.at(i) += addvec.get(i);
@@ -242,6 +245,9 @@ namespace vmath{
             }
             bool operator!=(const MatrixN &matrix) const{
                 return !(mat == matrix.mat);
+            }
+            std::vector<type> &operator[](const unsigned int pos){
+                return mat[pos];
             }
             
             MatrixN &operator+=(const MatrixN &addmat){
