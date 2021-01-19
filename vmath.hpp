@@ -115,8 +115,7 @@ namespace vmath{
             double length() const{ return std::sqrt(length_squared()); }
             
             bool is_normalized() const{
-                if(length_squared() == 1) return true;
-                return false;
+                return length_squared() == 1;
             }
             VectorN normalized() const{
                 if(is_normalized()) return *this;
@@ -386,7 +385,7 @@ namespace vmath{
                 return true;
             }
             bool is_orthonormalized() const{
-                return (is_orthogonalized() && is_normalized());
+                return is_orthogonalized() && is_normalized();
             }
             
     };
