@@ -276,9 +276,11 @@ namespace vmath{
             }
             MatrixN &operator*=(const MatrixN &multmat){
                 MatrixN tempmat(dim().x(), dim().y());
+                type val = 0;
+
                 for(std::size_t i=0; i<mat.size(); i++){
                     for(std::size_t k=0; k<mat.at(i).size(); k++){
-                        type val = 0;
+                        val = 0;
                         for(std::size_t j=0; j<mat.at(i).size(); j++){
                             val += mat.at(i).at(j) * multmat.get(j,k);
                         }
@@ -319,8 +321,10 @@ namespace vmath{
             }
             VectorN<type> operator*(const VectorN<type> &multvec) const{ // Matrix Vector Operation
                 VectorN<type> newvec(multvec.dim());
+                type val = 0;
+
                 for(std::size_t i=0; i<multvec.dim(); i++){
-                    type val = 0;
+                    val = 0;
                     for(std::size_t j=0; j<dim().y(); j++){
                         val += get(i,j) * multvec.get(j);
                     }
