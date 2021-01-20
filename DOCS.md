@@ -12,6 +12,11 @@ VectorN(const std::vector<type> &init)
 Constructor taking all the values of an existing vector.
 
 ```cpp
+VectorN(const VectorN<type> &init)
+```
+Copy Constructor
+
+```cpp
 std::size_t dim()
 ```
 Returns the vector dimension.
