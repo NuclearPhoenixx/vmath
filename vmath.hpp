@@ -37,6 +37,12 @@ namespace vmath{
             VectorN(const std::vector<type> &init){
                 vec = init;
             }
+            VectorN(const VectorN<type> &init){ // Copy Constructor
+                const std::size_t dim = init.dim();
+                vec.assign(dim,0);
+                
+                for(std::size_t i = 0; i<dim; i++) vec.at(i) = init.get(i);
+            }
 
             VectorN &operator=(const VectorN &newvec){
                 if(this == &newvec) return *this;
@@ -143,12 +149,13 @@ namespace vmath{
     */
     template <class type=double> struct Vector2: public VectorN<type>{
 
-        Vector2(const type initx=0, const type inity=0){ // Create vector with two coords
-            this->vec = {initx, inity};
-        }
-        Vector2(const VectorN<type> &v){ // Create vector out of existing VectorN
-            this->vec.assign(2,0);
-            for(unsigned char i=0; i<2; i++) this->vec.at(i) = v.get(i);
+        Vector2(const type initx=0, const type inity=0)
+            : VectorN<type>({initx, inity}) // Create vector with two coords
+        {}
+        Vector2(const VectorN<type> &v)
+            : VectorN<type>(v) // Create vector out of existing VectorN
+        {
+            this->vec.resize(2);
         }
 
         type x() const{ return this->get(0); } // Return first coord
@@ -176,12 +183,13 @@ namespace vmath{
     */
     template <class type=double> struct Vector3: public VectorN<type>{
 
-        Vector3(const type initx=0, const type inity=0, const type initz=0){ // Create vector with the 3 coords
-            this->vec = {initx, inity, initz};
-        }
-        Vector3(const VectorN<type> &v){ // Create vector out of existing vector
-            this->vec.assign(3,0);
-            for(unsigned char i=0; i<3; i++) this->vec.at(i) = v.get(i);
+        Vector3(const type initx=0, const type inity=0, const type initz=0)
+            : VectorN<type>({initx, inity, initz}) // Create vector with three coords
+        {}
+        Vector3(const VectorN<type> &v)
+            : VectorN<type>(v) // Create vector out of existing VectorN
+        {
+            this->vec.resize(3);
         }
 
         type x() const{ return this->get(0); }
@@ -227,6 +235,16 @@ namespace vmath{
             }
             MatrixN(const std::vector<std::vector<type>> &init){ // Create matrix out of existing 2-dimensional vector
                 mat = init;
+            }
+            MatrixN(const MatrixN<type> &init){ // Copy Constructor
+                Vector2<std::size_t> dim = init.dim();
+                mat.assign(dim.x(), std::vector<type>(dim.y(),0));
+                
+                for(std::size_t n=0; n<dim.x(); n++){
+                    for(std::size_t m=0; m<dim.y(); m++){
+                        mat.at(n).at(m) = init.get(n,m);
+                    }
+                }
             }
             
             MatrixN &operator=(const MatrixN &newmat){
@@ -396,19 +414,20 @@ namespace vmath{
     */
     template <class type=double> struct Matrix2: public MatrixN<type>{
 
-        Matrix2(type a11=1, type a12=0, type a21=0, type a22=1){ // Construct with matrix values
-            this->mat = {{a11,a12},{a21,a22}};
+        Matrix2(type a11=1, type a12=0, type a21=0, type a22=1)
+            : MatrixN<type>({{a11,a12},{a21,a22}}) // Construct with matrix values
+        {}
+        Matrix2(const std::vector<std::vector<type>> &init)
+            : MatrixN<type>(init) // Create matrix out of existing 2x2 vector        
+        {
+            this->mat.resize(2);
+            for(unsigned char n=0; n<2; n++) this->mat[n].resize(2);
         }
-        Matrix2(const std::vector<std::vector<type>> &init){ // Create matrix out of existing 2x2 vector
-            this->mat = init;
-        }
-        Matrix2(const MatrixN<type> &init){ // Construct with existing 2x2 MatrixN
-            this->mat.assign(2, std::vector<type>(2,0));
-            for(unsigned char n=0; n<2; n++){
-                for(unsigned char m=0; m<2; m++){
-                    this->mat.at(n).at(m) = init.get(n,m);
-                }
-            }
+        Matrix2(const MatrixN<type> &init)
+            : MatrixN<type>(init) // Construct with existing 2x2 MatrixN
+        {
+            this->mat.resize(2);
+            for(unsigned char n=0; n<2; n++) this->mat[n].resize(2);
         }
         
         Matrix2 inverse() const{
@@ -429,19 +448,20 @@ namespace vmath{
     */
     template <class type=double> struct Matrix3: public MatrixN<type>{
 
-        Matrix3(type a11=1, type a12=0, type a13=0, type a21=0, type a22=1, type a23=0, type a31=0, type a32=0, type a33=1){ // Construct with matrix values
-            this->mat = {{a11,a12,a13},{a21,a22,a23},{a31,a32,a33}};
+        Matrix3(type a11=1, type a12=0, type a13=0, type a21=0, type a22=1, type a23=0, type a31=0, type a32=0, type a33=1)
+            : MatrixN<type>({{a11,a12,a13},{a21,a22,a23},{a31,a32,a33}}) // Construct with matrix values
+        {}
+        Matrix3(const std::vector<std::vector<type>> &init)
+            : MatrixN<type>(init) // Construct with 2d 3x3 vector
+        {
+            this->mat.resize(3);
+            for(unsigned char n=0; n<3; n++) this->mat[n].resize(3);
         }
-        Matrix3(const std::vector<std::vector<type>> &init){ // Construct with 2d 3x3 vector
-            this->mat = init;
-        }
-        Matrix3(const MatrixN<type> &init){ // Construct with existing 3x3 MatrixN
-            this->mat.assign(3, std::vector<type>(3,0));
-            for(unsigned char n=0; n<3; n++){
-                for(unsigned char m=0; m<3; m++){
-                    this->mat.at(n).at(m) = init.get(n,m);
-                }
-            }
+        Matrix3(const MatrixN<type> &init)
+            : MatrixN<type>(init) // Construct with existing 3x3 MatrixN        
+        {
+            this->mat.resize(3);
+            for(unsigned char n=0; n<3; n++) this->mat[n].resize(3);
         }
         
         Matrix3 inverse() const{
