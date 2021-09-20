@@ -197,9 +197,9 @@ namespace vmath{
         type z() const{ return this->get(2); }
 
         Vector3<double> cross(Vector3 &crossvec) const{
-            const double newx = y() * crossvec.z() - z() * crossvec.y();
-            const double newy = z() * crossvec.x() - x() * crossvec.z();
-            const double newz = x() * crossvec.y() - y() * crossvec.x();
+            const double newx = double(y()) * crossvec.z() - double(z()) * crossvec.y();
+            const double newy = double(z()) * crossvec.x() - double(x()) * crossvec.z();
+            const double newz = double(x()) * crossvec.y() - double(y()) * crossvec.x();
             return Vector3<double>(newx,newy,newz);
         }
 
