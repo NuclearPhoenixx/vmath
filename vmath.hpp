@@ -3,9 +3,9 @@
 
     Simple to use vector and matrix math library.
 
-    2021, Phoenix1747, MIT License.
+    2021, NuclearPhoenix, MIT License.
     
-    Github: https://github.com/Phoenix1747/vmath
+    Github: https://github.com/NuclearPhoenixx/vmath
 
     TODO:
         - Orthonormalization -> Gram-Schmidt
